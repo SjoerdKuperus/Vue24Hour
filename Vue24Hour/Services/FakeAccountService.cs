@@ -13,7 +13,7 @@ namespace Vue24Hour.Services
         {
             var accounts = new[]
             {
-                new AccountModel {Phone = "0612345678"}
+                new AccountModel {Phone = "06-11111111", Name = "Admin"}
             };
             Accounts = accounts.ToList();
         }
@@ -23,10 +23,22 @@ namespace Vue24Hour.Services
             return Task.FromResult(Accounts.AsEnumerable());
         }
 
-        public Task AddAccount(string phone, string password)
+        public Task AddAccount(string phone, string password, string name)
         {
-            Accounts.Add(new AccountModel {Phone = phone, Password = password, Password2 = password});
+            Accounts.Add(new AccountModel
+            {
+                Name = name,
+                Phone = phone,
+                Password = password,
+                Password2 = password
+            });
             return Task.CompletedTask;
+        }
+
+        public Task<AccountModel> GetAccount(string phone, string password)
+        {
+            var result = Accounts.SingleOrDefault(a => a.Phone == phone && a.Password == password);
+            return Task.FromResult(result);
         }
     }
 }

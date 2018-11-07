@@ -16,6 +16,7 @@ namespace Vue24Hour
             services.AddMvc();
             services.AddSingleton<ITodoItemService, FakeTodoItemService>();
             services.AddSingleton<IAccountService, FakeAccountService>();
+            services.AddSingleton<IGameService, FakeGameService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

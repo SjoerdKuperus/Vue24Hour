@@ -7,6 +7,7 @@ namespace Vue24Hour.Services
     public interface IAccountService
     {
         Task<IEnumerable<AccountModel>> GetItems();
-        Task AddAccount(string phone, string password);
+        Task AddAccount(string phone, string password, string name);
+        Task<AccountModel> GetAccount(string phone, string password);
     }
 }

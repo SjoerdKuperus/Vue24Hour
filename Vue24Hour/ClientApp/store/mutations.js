@@ -8,7 +8,9 @@ export const state = {
     userName: null,
     locationName: "test1",
     locationCoords: {},
-    accounts: []
+    accounts: [],
+    games: [],
+    game: null
 }
 
 export const mutations = {
@@ -44,4 +46,10 @@ export const mutations = {
     loadAccounts(state, accounts) {
         state.accounts = accounts || [];
     },
+    loadGames(state, games) {
+        state.games = games || [];
+    },
+    loadGame(state, game) {
+        state.game = game || null;
+    }
 }

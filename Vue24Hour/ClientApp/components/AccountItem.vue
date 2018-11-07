@@ -1,6 +1,7 @@
 <template>
     <li class="account">
         <label v-text="item.phone"></label>
+        <label v-text="item.name"></label>
     </li>
 </template>
 

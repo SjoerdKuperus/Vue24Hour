@@ -41,12 +41,17 @@ namespace Vue24Hour.Controllers
                 return BadRequest("Wachtwoord mag niet leeg zijn.");
             }
 
+            if (string.IsNullOrEmpty(newAccount.Name))
+            {
+                return BadRequest("Naam mag niet leeg zijn.");
+            }
+
             if (newAccount.Password != newAccount.Password2)
             {
                 return BadRequest("Wachtwoorden zijn niet gelijk.");
             }
 
-            await _accountService.AddAccount(newAccount.Phone, newAccount.Password2);
+            await _accountService.AddAccount(newAccount.Phone, newAccount.Password2, newAccount.Name);
 
             return Ok();
         }

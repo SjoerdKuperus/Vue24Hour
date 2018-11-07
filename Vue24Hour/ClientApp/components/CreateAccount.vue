@@ -11,6 +11,10 @@
         <hr />
         <form @submit.prevent="createAccount" autocomplete="off">
             <div class="form-group">
+                <label for="phone">Naam</label>
+                <input id="name" v-model="name" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="phone">Telefoonnummer</label>
                 <input id="phone" v-model="phone" placeholder="06-12312311" class="form-control">
             </div>
@@ -22,7 +26,8 @@
                 <label for="password2">Herhaal wachtwoord</label>
                 <input id="password2" v-model="password2" placeholder="" class="form-control">
             </div>
-            <button type="submit" class="btn">Aanmaken account</button>
+            <button type="submit" class="btn">aanmaken account</button>
+            <router-link to="/logout">annuleren</router-link>
             <p v-if="createAccountError" class="error">{{createAccountError}}</p>
             <p v-if="formError" class="error">{{formError}}</p>
         </form>
@@ -33,6 +38,7 @@
     export default {
         data() {
             return {
+                name: '',
                 phone: '',
                 password: '',
                 password2: '',
@@ -53,6 +59,7 @@
                 else {
                     this.formError = "";
                     this.$store.dispatch('createAccount', {
+                        name: this.name,
                         phone: this.phone,
                         password: this.password,
                         password2: this.password2

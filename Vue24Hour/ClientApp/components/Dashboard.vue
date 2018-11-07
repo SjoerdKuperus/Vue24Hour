@@ -1,27 +1,34 @@
 <template>
     <div class="dashboard">
-        <h2>{{name}}, here's your to-do list</h2>
-
-        <input class="new-todo" autofocus="" autocomplete="off" placeholder="What needs to be done? test" @keyup.enter="addTodo">
-
-        <ul class="todo-list">
-            <todo-item v-for="(todo, index) in todos" :key="index" :item="todo"></todo-item>
+        <h2>Welkom {{name}}, veel plezier met het 24 uur spel.</h2>
+        <hr />
+        <p>
+            Je doet op dit moment niet mee aan een spel. Wil je je inschrijven voor het volgende spel?
+        </p>
+        <hr />
+        <p>Actiefe spellen</p>
+        <ul class="account-list">
+            <game-item v-for="(game, index) in games" :key="index" :item="game"></game-item>
         </ul>
 
-        <p>{{ remaining }} remaining</p>
-        <router-link to="/logout">Log out</router-link>
-        <h2>Test the location.</h2>
+        <router-link to="/logout">Uitloggen</router-link>
+        <hr />
+        <p>
+            Test stuff
+        </p>
         <router-link to="/location">Locatie</router-link>
     </div>
 </template>
 
 <script>
     import TodoItem from './TodoItem'
+    import GameItem from './GameItem'
 
     export default {
-        components: { TodoItem },
+        components: { TodoItem, GameItem},
         mounted() {
-            this.$store.dispatch('getAllTodos')
+            this.$store.dispatch('getAllTodos');
+            this.$store.dispatch('getAllGames');
         },
         computed: {
             name() {
@@ -30,12 +37,9 @@
             todos() {
                 return this.$store.state.todos
             },
-            complete() {
-                return this.todos.filter(todo => todo.completed).length
+            games() {
+                return this.$store.state.games
             },
-            remaining() {
-                return this.todos.filter(todo => !todo.completed).length
-            }
         },
         methods: {
             addTodo(e) {

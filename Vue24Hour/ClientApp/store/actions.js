@@ -19,8 +19,12 @@ export const actions = {
     },
 
     async login({ dispatch, commit }, data) {
-        // Todo: log the user in
-        commit('loggedIn', { userName: data.email });
+        await axios.post('/api/login', data)
+            .then((res) => {
+                commit('loggedIn', res.data);
+            }).catch((error) => {
+                commit('loginError', error.response.data);
+            });
     },
 
     async logout({ commit }) {
@@ -73,6 +77,23 @@ export const actions = {
         if (response && response.data) {
             let updatedAccounts = response.data;
             commit('loadAccounts', updatedAccounts);
+        }
+    },
+
+    async getAllGames({ commit }) {
+        let response = await axios.get('/api/game');
+
+        if (response && response.data) {
+            let updatedGames = response.data;
+            commit('loadGames', updatedGames);
+        }
+    },
+
+    async getGame({ commit }, id) {
+        let response = await axios.get('/api/game/' + id);
+        if (response && response.data) {
+            let game = response.data;
+            commit('loadGame', game);
         }
     },
 }
