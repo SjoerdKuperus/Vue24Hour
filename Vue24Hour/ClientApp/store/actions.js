@@ -56,5 +56,23 @@ export const actions = {
     async deleteTodo({ dispatch }, id) {
         await axios.delete('/api/todo/' + id);
         await dispatch('getAllTodos');
-    }
+    },
+
+    async createAccount({ dispatch, commit }, data) {
+        await axios.post('/api/account', data)
+            .then((res) => {
+                dispatch('logout');
+            }).catch((error) => {
+                commit('createAccountError', error.response.data);
+            });
+    },
+
+    async getAllAccounts({ commit }) {
+        let response = await axios.get('/api/account');
+
+        if (response && response.data) {
+            let updatedAccounts = response.data;
+            commit('loadAccounts', updatedAccounts);
+        }
+    },
 }

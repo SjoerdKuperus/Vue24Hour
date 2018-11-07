@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 using Vue24Hour.Services;
@@ -20,6 +15,7 @@ namespace Vue24Hour
             // Add framework services.
             services.AddMvc();
             services.AddSingleton<ITodoItemService, FakeTodoItemService>();
+            services.AddSingleton<IAccountService, FakeAccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

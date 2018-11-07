@@ -4,9 +4,11 @@ export const state = {
     todos: [],
     loggedIn: false,
     loginError: null,
+    createAccountError: null,
     userName: null,
     locationName: "test1",
-    locationCoords: {}
+    locationCoords: {},
+    accounts: []
 }
 
 export const mutations = {
@@ -26,6 +28,9 @@ export const mutations = {
     loginError(state, message) {
         state.loginError = message;
     },
+    createAccountError(state, message) {
+        state.createAccountError = message;
+    },
 
     loadTodos(state, todos) {
         state.todos = todos || [];
@@ -35,5 +40,8 @@ export const mutations = {
     },
     setLocationCoords(state, location) {
         state.locationCoords = location;
-    }
+    },
+    loadAccounts(state, accounts) {
+        state.accounts = accounts || [];
+    },
 }

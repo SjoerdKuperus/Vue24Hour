@@ -42,7 +42,7 @@
     }
     .app-view {
         background: #fff;
-        min-width: 400px;
+        min-width: 800px;
         padding: 20px 25px 15px 25px;
         margin: 30px;
         position: relative;

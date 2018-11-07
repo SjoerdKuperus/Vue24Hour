@@ -1,4 +1,4 @@
-﻿Uitzoek project van Sjoerd Kuperus over het 24uur spel waarbij gebruikt gemaakt wordt van nieuwe technieken.
+Uitzoek project van Sjoerd Kuperus over het 24uur spel waarbij gebruikt gemaakt wordt van nieuwe technieken.
 
 Functionele doelen:
 * 24uur spel kunnen opzetten in een site.
@@ -33,7 +33,6 @@ Results:
 ** Actions run asynchronous code, then commit mutations, which change state.
 
 * gebruik location Guard om locatie in firefox te spoofen.
-
 
 
 (14 augustus 2018)

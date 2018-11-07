@@ -4,6 +4,8 @@ import store from './store'
 import Dashboard from './components/Dashboard.vue'
 import Login from './components/Login.vue'
 import Location from './components/Location.vue'
+import CreateAccount from './components/CreateAccount.vue'
+import ListAccounts from './components/ListAccounts.vue'
 
 Vue.use(Router);
 
@@ -12,9 +14,9 @@ function requireAuth(to, from, next) {
         next({
             path: '/login',
             query: { redirect: to.path }
-        })
+        });
     } else {
-        next()
+        next();
     }
 };
 
@@ -25,10 +27,12 @@ export default new Router({
         { path: '/', component: Dashboard, beforeEnter: requireAuth },
         { path: '/login', component: Login },
         { path: '/location', component: Location },
+        { path: '/createAccount', component: CreateAccount },
+        { path: '/listAccounts', component: ListAccounts },
         {
             path: '/logout',
             async beforeEnter(to, from, next) {
-                await store.dispatch('logout')
+                await store.dispatch('logout');
             }
         }
     ]

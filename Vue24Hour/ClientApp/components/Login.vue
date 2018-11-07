@@ -1,18 +1,29 @@
 <template>
     <div>
-        <h2>Login</h2>
-        <p v-if="$route.query.redirect">
-            You need to login first.
+        <h2>24 uur spel</h2>
+        <hr />
+        <p>
+            Welkom bij het 24 uur spel. Om mee te doen moet je eerst een account aanmaken. Dat kan <router-link to="/CreateAccount">Hier</router-link>.
+            Als je al een account hebt kan je inloggen.
         </p>
-
+        <hr />
+        <div v-if="$route.query.redirect" class="alert alert-warning" role="alert">Je moet eerst inloggen.</div>
         <form @submit.prevent="login" autocomplete="off">
-            <label for="email">Email</label>
-            <input id="email" v-model="email" placeholder="you@example.com">
-                <label for="password">Password</label>
-                <input id="password" v-model="password" placeholder="password" type="password">
-                    <button type="submit">login</button>
-                    <p v-if="loginError" class="error">{{loginError}}</p>
+            <div class="form-group">
+                <label for="phone">Telefoonnummer</label>
+                <input id="phone" v-model="phone" placeholder="06-12312311" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Wachtwoord</label>
+                <input id="password" v-model="password" placeholder="" type="password" class="form-control">
+            </div>
+            <button type="submit" class="btn">login</button>
+            <p v-if="loginError" class="error">{{loginError}}</p>
         </form>
+        <hr />
+        <p>
+            <router-link to="/ListAccounts">Lijst van alle accounts</router-link>
+        </p>
     </div>
 </template>
 
@@ -20,7 +31,7 @@
     export default {
         data() {
             return {
-                email: '',
+                phone: '',
                 password: '',
                 error: false
             }
@@ -33,7 +44,7 @@
         methods: {
             login() {
                 this.$store.dispatch('login', {
-                    email: this.email,
+                    phone: this.phone,
                     password: this.password
                 })
             }
