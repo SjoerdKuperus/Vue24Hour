@@ -64,4 +64,10 @@ Doelen:
 * PWA intergratie
 
 Acties:
-* 
+* Opzet van domein in eigen project (met repository structuur)
+* Fake Game, Quadranten data toegevoegd.
+* Tonen van game en quadrant informatie in een map.
+
+Todos:
+* Game loop.
+* PWA intergratie.
