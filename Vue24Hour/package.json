@@ -1,7 +1,7 @@
 {
-  "name": "aspnetcore-vuejs",
-  "description": "ASP.NET Core & VueJS Starter project",
-  "author": "Mark Pieszak",
+  "name": "24hour_game",
+  "description": "ASP.NET Core & VueJS Starter project + custom code of 24 hour game",
+  "author": "Mark Pieszak + Sjoerd Kuperus",
   "scripts": {
     "dev": "cross-env ASPNETCORE_ENVIRONMENT=Development NODE_ENV=development dotnet run",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",

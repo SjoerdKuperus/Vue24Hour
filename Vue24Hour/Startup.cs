@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
+using Vue24Hour.Domain.Repository;
+using Vue24Hour.Persistence;
 using Vue24Hour.Services;
 
 namespace Vue24Hour
@@ -17,6 +19,7 @@ namespace Vue24Hour
             services.AddSingleton<ITodoItemService, FakeTodoItemService>();
             services.AddSingleton<IAccountService, FakeAccountService>();
             services.AddSingleton<IGameService, FakeGameService>();
+            services.AddSingleton<IGameRepository, DomainContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +48,7 @@ namespace Vue24Hour
 
                 routes.MapSpaFallbackRoute(
                     name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                    defaults: new {controller = "Home", action = "Index"});
             });
         }
     }

@@ -10,7 +10,7 @@ Functionele doelen:
 Technische doelen:
 * vue.js als client side framework.
 * kaart met eigen dynamisch layer voor game informatie.
-
+* Progressive Web App intergratie.
 
 Results:
 
@@ -54,3 +54,14 @@ Vervolg stappen.
 	- Rest service laag tussen vue.js voorkant en persistance.
 * Raster moet game state kunnen tonen (in kleuren van polygonen die van dat team zijn)
 * Pagina's voor toevoegen teams, teamleden, opstarten nieuw spel, ect.
+
+(?????)
+
+(29 januari 2019)
+Doelen:
+* Uitzoeken opzet teams/spelers
+* Game state running in background.
+* PWA intergratie
+
+Acties:
+* 

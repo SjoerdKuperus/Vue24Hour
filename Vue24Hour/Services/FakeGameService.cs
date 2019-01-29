@@ -2,43 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vue24Hour.Domain.Repository;
 using Vue24Hour.Models;
 
 namespace Vue24Hour.Services
 {
     public class FakeGameService : IGameService
     {
-        public List<GameItemModel> Games { get; set; }
+        private IGameRepository _gameRepository;
 
-        public FakeGameService()
+        public FakeGameService(IGameRepository repository)
         {
-            var games = new[]
-            {
-                new GameItemModel
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Spel 1",
-                    StartDate = DateTime.Today.ToString("dd-MM-yyyy")
-                },
-                new GameItemModel
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Spel Oud",
-                    StartDate = DateTime.Today.AddDays(-10).ToString("dd-MM-yyyy")
-                }
-            };
-            Games = games.ToList();
+            _gameRepository = repository;
         }
 
         public Task<IEnumerable<GameItemModel>> GetItems()
         {
-            return Task.FromResult(Games.AsEnumerable());
+            var allGames = _gameRepository.GetAllGames();
+            return Task.FromResult(allGames.Select(_ => GameItemModel.MapFrom(_)).AsEnumerable());
         }
 
         public Task<GameItemModel> GetGame(Guid id)
         {
-            var result = Games.SingleOrDefault(g => g.Id == id);
-            return Task.FromResult(result);
+            var game = GameItemModel.MapFrom(_gameRepository.GetGame(id));
+            return Task.FromResult(game);
         }
     }
 }
