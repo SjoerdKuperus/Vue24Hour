@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vue24Hour.Domain.Model;
+using Vue24Hour.Domain.Model.Requests;
 using Vue24Hour.Domain.Repository;
 using Vue24Hour.Models;
 
@@ -26,6 +28,16 @@ namespace Vue24Hour.Services
         {
             var game = GameItemModel.MapFrom(_gameRepository.GetGame(id));
             return Task.FromResult(game);
+        }
+
+        public void CreateGame(CreateGameRequest createGameRequest)
+        {
+            _gameRepository.CreateGame(createGameRequest);
+        }
+
+        public void ActivateGame(Guid id)
+        {
+            _gameRepository.SetGameState(id, GameState.Running);
         }
     }
 }

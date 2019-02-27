@@ -10,6 +10,14 @@
         <ul class="account-list">
             <game-item v-for="(game, index) in games" :key="index" :item="game"></game-item>
         </ul>
+        <router-link to="/startNewGame">Nieuw spel starten</router-link>
+        <hr />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
 
         <router-link to="/logout">Uitloggen</router-link>
         <hr />

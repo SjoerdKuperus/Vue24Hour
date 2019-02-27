@@ -5,6 +5,7 @@ export const state = {
     loggedIn: false,
     loginError: null,
     createAccountError: null,
+    createGameError: null,
     userName: null,
     locationName: "test1",
     locationCoords: {},
@@ -32,6 +33,9 @@ export const mutations = {
     },
     createAccountError(state, message) {
         state.createAccountError = message;
+    },
+    createGameError(state, message) {
+        state.createGameError = message;
     },
 
     loadTodos(state, todos) {

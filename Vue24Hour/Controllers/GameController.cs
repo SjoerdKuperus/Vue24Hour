@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Vue24Hour.Domain.Model.Requests;
 using Vue24Hour.Services;
 
 namespace Vue24Hour.Controllers
@@ -30,5 +31,31 @@ namespace Vue24Hour.Controllers
             var game = await _gameService.GetGame(id);
             return Ok(game);
         }
+
+
+        // POST /api/game
+        [HttpPost]
+        public async Task<IActionResult> StartNewGame([FromBody] CreateGameRequest createGameRequest)
+        {
+            if (string.IsNullOrEmpty(createGameRequest?.Name))
+            {
+                return BadRequest("Name mag niet leeg zijn.");
+            }
+
+            _gameService.CreateGame(createGameRequest);
+            return Ok();
+        }
+
+        [HttpPost("activate")]
+        public async Task<IActionResult> ActivateGame([FromBody] ActivateGameModel game)
+        {
+            _gameService.ActivateGame(new Guid(game.id));
+            return Ok();
+        }
+    }
+
+    public class ActivateGameModel
+    {
+        public string id { get; set; }
     }
 }

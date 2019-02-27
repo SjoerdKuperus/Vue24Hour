@@ -13,10 +13,12 @@ namespace Vue24Hour.Domain.Model
         public GameState GameState { get; set; }
         public ICollection<Quadrant> Quadrants { get; set; }
         public GeoCoordinate GameCenter { get; set; }
+        public ICollection<ControlEvent> ControlEvents { get; set; }
 
         public Game()
         {
             Quadrants = new HashSet<Quadrant>();
+            ControlEvents = new HashSet<ControlEvent>();
 
             //Temp data.
             GameCenter = new GeoCoordinate(52.0907336, 5.1217543); //Dom van utrecht //52.0907336,5.1217543
@@ -71,27 +73,5 @@ namespace Vue24Hour.Domain.Model
             neude.Border.Add(new GeoCoordinate(52.093203, 5.123148));
             Quadrants.Add(neude);
         }
-    }
-
-    public class Quadrant
-    {
-        public double Width = 1000;
-        public double Height = 1000;
-        public GeoCoordinate CenterPoint { get; set; }
-        public ICollection<GeoCoordinate> Border { get; set; }
-
-        public Quadrant()
-        {
-            CenterPoint = GeoCoordinate.Unknown;
-            Border = new HashSet<GeoCoordinate>();
-        }
-    }
-
-    public enum GameState
-    {
-        Startup = 0,
-        Running = 1,
-        Finished = 2,
-        Aborted = 3,
     }
 }

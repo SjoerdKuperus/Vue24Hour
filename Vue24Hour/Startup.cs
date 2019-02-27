@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Vue24Hour.Domain.Repository;
 using Vue24Hour.Persistence;
@@ -20,6 +21,8 @@ namespace Vue24Hour
             services.AddSingleton<IAccountService, FakeAccountService>();
             services.AddSingleton<IGameService, FakeGameService>();
             services.AddSingleton<IGameRepository, DomainContext>();
+
+            services.AddHostedService<TimedHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

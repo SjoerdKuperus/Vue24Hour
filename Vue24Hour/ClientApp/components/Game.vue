@@ -11,13 +11,19 @@
                 <div class="col-sm-3">Naam:</div><div class="col-sm-9" v-text="game.name"></div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Datum:</div><div class="col-sm-9"  v-text="game.startDate"></div>
+                <div class="col-sm-3">Datum:</div><div class="col-sm-9" v-text="game.startDate"></div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Aantal kwadranten:</div><div class="col-sm-9"  v-text="game.quadrantCount"></div>
+                <div class="col-sm-3">Game status:</div><div class="col-sm-9" v-text="game.gameState"></div>
+            </div>
+            <div v-if="gameStateStartup" class="row">
+                <div class="col-sm-9 col-lg-offset-3"><button v-on:click="activateGame" class="btn">Activate game</button></div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Middenpunt:</div><div class="col-sm-9"  v-text="game.gameCenter"></div>
+                <div class="col-sm-3">Aantal kwadranten:</div><div class="col-sm-9" v-text="game.quadrantCount"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Middenpunt:</div><div class="col-sm-9" v-text="game.gameCenter"></div>
             </div>
         </p>
         <p>
@@ -45,6 +51,9 @@
             game() {
                 var game = this.$store.state.game || { 'startDate': "" };
                 return game;
+            },
+            gameStateStartup() {
+                return (this.$store.state.game && this.$store.state.game.gameState === "Startup");
             }
         },
         created() {
@@ -56,9 +65,13 @@
             this.showMap();
         },
         methods: {
+            activateGame() {
+                this.$store.dispatch('activateGame', {
+                    id: this.$store.state.game.id                    
+                })
+            },
             showMap() {
                 var center = this.$store.state.game.centerLocationCoords;
-                console.log("center = " + center);
                 var map = new mapboxgl.Map({
                     container: 'map-container',
                     style: 'https://geodata.nationaalgeoregister.nl/beta/topotiles-viewer/styles/achtergrond.json',

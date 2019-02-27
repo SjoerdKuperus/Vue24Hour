@@ -9,6 +9,7 @@ namespace Vue24Hour.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string StartDate { get; set; }
+        public string GameState { get; set; }
         public int QuadrantCount { get; set; }
         public string GameCenter { get; set; }
         public double[] CenterLocationCoords { get; set; }
@@ -21,6 +22,7 @@ namespace Vue24Hour.Models
                 Id = game.Id,
                 Name = game.Name,
                 StartDate = game.StartDate.ToString("dd-MM-yyyy"),
+                GameState = game.GameState.ToString(),
                 QuadrantCount = game.Quadrants.Count,
                 GameCenter = "" + game.GameCenter.Longitude + ", " + game.GameCenter.Latitude,
                 CenterLocationCoords = new[] {game.GameCenter.Longitude, game.GameCenter.Latitude},

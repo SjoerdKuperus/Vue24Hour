@@ -7,6 +7,7 @@ import Location from './components/Location.vue'
 import CreateAccount from './components/CreateAccount.vue'
 import ListAccounts from './components/ListAccounts.vue'
 import Game from './components/Game.vue'
+import StartNewGame from './components/StartNewGame.vue'
 
 Vue.use(Router);
 
@@ -31,6 +32,7 @@ export default new Router({
         { path: '/createAccount', component: CreateAccount },
         { path: '/listAccounts', component: ListAccounts },
         { path: '/game/:id', component: Game },
+        { path: '/startNewGame', component: StartNewGame },
         {
             path: '/logout',
             async beforeEnter(to, from, next) {

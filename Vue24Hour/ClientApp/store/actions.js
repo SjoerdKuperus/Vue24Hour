@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 
 const sleep = ms => {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -68,6 +69,22 @@ export const actions = {
                 dispatch('logout');
             }).catch((error) => {
                 commit('createAccountError', error.response.data);
+            });
+    },
+
+    async createGame({ dispatch, commit }, data) {
+        await axios.post('/api/game', data)
+            .then((res) => {
+                router.push('/');
+            }).catch((error) => {
+                commit('createGameError', error.response.data);
+            });
+    },
+
+    async activateGame({ dispatch, commit }, data) {
+        await axios.post('/api/game/activate', data)
+            .then((res) => {
+                router.push('/');
             });
     },
 
