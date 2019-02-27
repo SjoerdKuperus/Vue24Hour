@@ -62,52 +62,58 @@
                 var map = new mapboxgl.Map({
                     container: 'map-container',
                     style: 'https://geodata.nationaalgeoregister.nl/beta/topotiles-viewer/styles/achtergrond.json',
-                    zoom: 16,
+                    zoom: 15,
                     center: center
                 });
                 // Add zoom and rotation controls to the map.
                 map.addControl(new mapboxgl.NavigationControl(), "top-left");
 
-                var gridData2 = [];
+                var features = [];
+                var colors = ["#FF4747", "#FF9A47", "#35BDBD", "#3EDE3E"];
+                var colorCount = 0;
                 for (var i = 0; i < this.$store.state.game.quadrants.length; i++) {
-                    gridData2.push(this.getPolygon(this.$store.state.game.quadrants[i]));
-                }
-
-                map.on('load', function () {
-                    // add custom grid layer?
-                    var customGridLayer = {
-                        "id": "gridTest",
-                        "type": "background",
-                        "paint": {
-                            "background-color": "#00ffff"
+                    var newFeature = {
+                        type: "Feature",
+                        properties: {
+                            "color": colors[colorCount]
+                        },
+                        geometry: {
+                            type: "Polygon",
+                            coordinates: [this.getPolygon(this.$store.state.game.quadrants[i])]
                         }
                     };
-                    //map.addLayer(customGridLayer);
-                    //map.removeLayer("background");
+                    features.push(newFeature);
+                    colorCount++;
+                    if (colorCount == 3) {
+                        colorCount = 0;
+                    }
+                }
+                //console.log(JSON.stringify(features));
 
-                    map.addLayer({
-                        'id': 'houtenGrid1',
-                        'type': 'fill',
-                        'source': {
-                            'type': 'geojson',
-                            'data': {
-                                'type': 'Feature',
-                                'geometry': {
-                                    'type': 'Polygon',
-                                    'coordinates': gridData2
-                                }
-                            }
-                        },
-                        'layout': {},
-                        'paint': {
-                            'fill-color': '#088',
-                            'fill-opacity': 0.8
+                map.on('load', function () {
+                    //Source with the feature data in GeoJson format.
+                    map.addSource("gridData", {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": features 
                         }
+                    });
+
+                    //Draw all the polygons with an color based on the color property of the feature.
+                    map.addLayer({
+                        "id": "TestPolyGons",
+                        "type": "fill",
+                        "source": "gridData",
+                        "paint": {
+                            'fill-color': ['get', 'color'],
+                            "fill-opacity": 0.8
+                        },
+                        "filter": ["==", "$type", "Polygon"]
                     });
                 });
             },
             getPolygon(quadrant) {
-
                 var result = [];
                 for (var i = 0; i < quadrant.border.length; i++) {
                     var longtitude = quadrant.border[i].borderPoint[0];
@@ -119,6 +125,4 @@
         }
     }
 </script>
-
-<style>
-</style>
+<style></style>

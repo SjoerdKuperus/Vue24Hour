@@ -71,3 +71,14 @@ Acties:
 Todos:
 * Game loop.
 * PWA intergratie.
+
+
+(27 februari 2019)
+Doelen:
+* Opzet meerdere kwadranten in een game.
+* Game loop
+
+Acties:
+
+
+TODOS:
