@@ -3,10 +3,7 @@
         <h2>Game: {{game.startDate}} </h2>
         <hr />
         <p>
-            Informatie over deze game:
-        </p>
-        <hr />
-        <p>
+            <h3>Informatie over deze game:</h3>
             <div class="row">
                 <div class="col-sm-3">Naam:</div><div class="col-sm-9" v-text="game.name"></div>
             </div>
@@ -14,10 +11,9 @@
                 <div class="col-sm-3">Datum:</div><div class="col-sm-9" v-text="game.startDate"></div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Game status:</div><div class="col-sm-9" v-text="game.gameState"></div>
-            </div>
-            <div v-if="gameStateStartup" class="row">
-                <div class="col-sm-9 col-lg-offset-3"><button v-on:click="activateGame" class="btn">Activate game</button></div>
+                <div class="col-sm-3">Game status:</div>
+                <div class="col-sm-3" v-text="game.gameState"></div>
+                <div v-if="gameStateStartup" class="col-sm-6"><button v-on:click="activateGame" class="btn">Activate game</button></div>
             </div>
             <div class="row">
                 <div class="col-sm-3">Aantal kwadranten:</div><div class="col-sm-9" v-text="game.quadrantCount"></div>
@@ -26,7 +22,13 @@
                 <div class="col-sm-3">Middenpunt:</div><div class="col-sm-9" v-text="game.gameCenter"></div>
             </div>
         </p>
+        <hr />
         <p>
+            <h3>Teams</h3>
+        </p>
+        <hr />
+        <p>
+            <h3>Kaart</h3>
             <!--MapboxGLjs CSS-->
             <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.css' rel='stylesheet' />
             <!--The div in which the map will be created-->

@@ -14,6 +14,7 @@ namespace Vue24Hour.Models
         public string GameCenter { get; set; }
         public double[] CenterLocationCoords { get; set; }
         public QuadrantItemModel[] Quadrants { get; set; }
+        public TeamItemModel[] Teams { get; set; }
 
         public static GameItemModel MapFrom(Game game)
         {
@@ -26,8 +27,20 @@ namespace Vue24Hour.Models
                 QuadrantCount = game.Quadrants.Count,
                 GameCenter = "" + game.GameCenter.Longitude + ", " + game.GameCenter.Latitude,
                 CenterLocationCoords = new[] {game.GameCenter.Longitude, game.GameCenter.Latitude},
-                Quadrants = game.Quadrants.Select(QuadrantItemModel.MapFrom).ToArray()
+                Quadrants = game.Quadrants.Select(QuadrantItemModel.MapFrom).ToArray(),
+                Teams = game.Teams.Select(TeamItemModel.MapFrom).ToArray()
             };
+        }
+    }
+
+    public class TeamItemModel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+
+        public static TeamItemModel MapFrom(Team team)
+        {
+            return new TeamItemModel {Id = team.Id, Name = team.Name};
         }
     }
 

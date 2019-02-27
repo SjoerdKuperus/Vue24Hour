@@ -45,7 +45,7 @@ namespace Vue24Hour.Persistence
             {
                 Name = createGameRequest.Name,
                 StartDate = createGameRequest.StartDate,
-                Teams = createGameRequest.Teams,
+                Teams = createGameRequest.Teams.Select(Team.CreateTeam).ToArray(),
                 GameState = GameState.Startup,
                 Id = Guid.NewGuid()
             });

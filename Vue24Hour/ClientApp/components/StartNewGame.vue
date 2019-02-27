@@ -12,11 +12,10 @@
             </div>
             <div class="form-group">
                 <label for="password">Team</label>
-                <select name="teams" multiple>
-                    <option value="rood">Team Rood</option>
-                    <option value="geel">Team Geel</option>
-                    <option value="paars">Team Paars</option>
-                    <option value="blauw">Team Blauw</option>
+                <select v-model="teams" multiple>
+                    <option v-for="option in options" v-bind:value="option.value">
+                        {{ option.text }}
+                    </option>
                 </select>
             </div>
             <button type="submit" class="btn">Start nieuw spel</button>
@@ -38,7 +37,13 @@
                 startDate: '',
                 teams: '',
                 error: false,
-                formError: ""
+                formError: "",
+                options: [
+                    { text: 'Rood', value: 'A' },
+                    { text: 'Geel', value: 'B' },
+                    { text: 'Paars', value: 'C' },
+                    { text: 'Blauw', value: 'D' }
+                ]
             }
         },
         computed: {
