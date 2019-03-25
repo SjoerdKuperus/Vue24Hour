@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using BAMCIS.GeoJSON;
 using GeoCoordinatePortable;
+using Newtonsoft.Json;
 
 namespace Vue24Hour.Domain.Model
 {
@@ -24,6 +27,7 @@ namespace Vue24Hour.Domain.Model
             //Temp data.
             GameCenter = new GeoCoordinate(52.0907336, 5.1217543); //Dom van utrecht //52.0907336,5.1217543
 
+            /*
             var center = new Quadrant();
             center.CenterPoint = new GeoCoordinate(52.0907336, 5.1217543);
             center.Border.Add(new GeoCoordinate(52.091439, 5.119906)); //Start is same as finish
@@ -53,7 +57,6 @@ namespace Vue24Hour.Domain.Model
             pieterkerk.Border.Add(new GeoCoordinate(52.091913, 5.122982));
             Quadrants.Add(pieterkerk);
 
-
             var neude = new Quadrant();
             neude.CenterPoint = new GeoCoordinate(52.0907336, 5.1217543);
             neude.Border.Add(new GeoCoordinate(52.093203, 5.123148));
@@ -73,6 +76,39 @@ namespace Vue24Hour.Domain.Model
             neude.Border.Add(new GeoCoordinate(52.093134, 5.122161));
             neude.Border.Add(new GeoCoordinate(52.093203, 5.123148));
             Quadrants.Add(neude);
+            */
+
+            // Read of the features from geoJson file.
+
+            // get the JSON file content
+            var path = "C:\\Ontwik\\Innovation\\Vue24Hour\\Vue24Hour\\MapData\\TestDataV1.geojson";
+            var jsonData = File.ReadAllText(path);
+
+            GeoJson data = JsonConvert.DeserializeObject<GeoJson>(jsonData);
+            FeatureCollection features = data as FeatureCollection;
+            if (features != null)
+            {
+                foreach (var feature in features.Features)
+                {
+                    var geometry = feature.Geometry;
+                    Polygon polygon = geometry as Polygon;
+                    if (polygon != null)
+                    {
+                        var newQuadrant = new Quadrant();
+                        newQuadrant.CenterPoint = new GeoCoordinate(52.0907336, 5.1217543); // TODO?
+
+                        foreach (var polygonCoords in polygon.Coordinates)
+                        {
+                            var positions = polygonCoords.Coordinates;
+                            foreach (var point in positions)
+                            {
+                                newQuadrant.Border.Add(new GeoCoordinate(point.Latitude, point.Longitude));
+                            }
+                        }
+                        Quadrants.Add(newQuadrant);
+                    }
+                }
+            }
         }
     }
 }

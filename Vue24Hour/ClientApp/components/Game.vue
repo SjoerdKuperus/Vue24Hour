@@ -82,7 +82,7 @@
                 var map = new mapboxgl.Map({
                     container: 'map-container',
                     style: 'https://geodata.nationaalgeoregister.nl/beta/topotiles-viewer/styles/achtergrond.json',
-                    zoom: 15,
+                    zoom: 14,
                     center: center
                 });
                 // Add zoom and rotation controls to the map.
@@ -104,7 +104,7 @@
                     };
                     features.push(newFeature);
                     colorCount++;
-                    if (colorCount == 3) {
+                    if (colorCount == 4) {
                         colorCount = 0;
                     }
                 }
