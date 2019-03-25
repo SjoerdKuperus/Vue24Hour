@@ -25,6 +25,7 @@
         <hr />
         <p>
             <h3>Teams</h3>
+            <team-item v-for="(team, index) in teams" :key="index" :item="team"></team-item>
         </p>
         <hr />
         <p>
@@ -40,9 +41,10 @@
 
 <script>
     import GameItem from './GameItem'
+    import TeamItem from './TeamItem'
 
     export default {
-        components: {GameItem},
+        components: { GameItem, TeamItem},
         mounted() {
             this.$store.dispatch('getGame', this.$route.params.id);
         },
@@ -56,7 +58,10 @@
             },
             gameStateStartup() {
                 return (this.$store.state.game && this.$store.state.game.gameState === "Startup");
-            }
+            },
+            teams() {
+                return this.$store.state.game != null ? this.$store.state.game.teams : [];
+            },
         },
         created() {
             let mapBoxScript = document.createElement('script')

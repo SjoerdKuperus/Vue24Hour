@@ -12,10 +12,12 @@ namespace Vue24Hour.Services
     public class FakeGameService : IGameService
     {
         private IGameRepository _gameRepository;
+        private ITeamRepository _teamRepository;
 
-        public FakeGameService(IGameRepository repository)
+        public FakeGameService(IGameRepository gameRepository, ITeamRepository teamRepository)
         {
-            _gameRepository = repository;
+            _gameRepository = gameRepository;
+            _teamRepository = teamRepository;
         }
 
         public Task<IEnumerable<GameItemModel>> GetItems()
@@ -32,12 +34,18 @@ namespace Vue24Hour.Services
 
         public void CreateGame(CreateGameRequest createGameRequest)
         {
+            createGameRequest.SelectedTeams = createGameRequest.Teams.Select(_ => _teamRepository.GetTeam(new Guid(_))).ToArray();
             _gameRepository.CreateGame(createGameRequest);
         }
 
         public void ActivateGame(Guid id)
         {
             _gameRepository.SetGameState(id, GameState.Running);
+        }
+
+        public Task<IEnumerable<TeamItemModel>> GetTeams()
+        {
+            return Task.FromResult(_teamRepository.GetAllTeams().Select(TeamItemModel.MapFrom));
         }
     }
 }

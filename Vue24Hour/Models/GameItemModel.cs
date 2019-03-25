@@ -37,10 +37,11 @@ namespace Vue24Hour.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string Color { get; set; }
 
         public static TeamItemModel MapFrom(Team team)
         {
-            return new TeamItemModel {Id = team.Id, Name = team.Name};
+            return new TeamItemModel {Id = team.Id, Name = team.Name, Color = team.Color};
         }
     }
 

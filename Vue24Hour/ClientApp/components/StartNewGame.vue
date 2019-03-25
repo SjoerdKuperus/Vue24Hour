@@ -11,10 +11,10 @@
                 <input id="startDate" type="date" v-model="startDate" class="form-control">
             </div>
             <div class="form-group">
-                <label for="password">Team</label>
-                <select v-model="teams" multiple>
-                    <option v-for="option in options" v-bind:value="option.value">
-                        {{ option.text }}
+                <label for="password">Teams</label>
+                <select v-model="selectedTeams" multiple>
+                    <option v-for="team in teams" v-bind:value="team.id">
+                        {{ team.name }}
                     </option>
                 </select>
             </div>
@@ -35,21 +35,21 @@
             return {
                 name: '',
                 startDate: '',
-                teams: '',
+                selectedTeams: [],
                 error: false,
                 formError: "",
-                options: [
-                    { text: 'Rood', value: 'A' },
-                    { text: 'Geel', value: 'B' },
-                    { text: 'Paars', value: 'C' },
-                    { text: 'Blauw', value: 'D' }
-                ]
             }
+        },
+        mounted() {
+            this.$store.dispatch('getAllTeams');
         },
         computed: {
             createGameError() {
                 return this.$store.state.createGameError
-            }
+            },
+            teams() {
+                return this.$store.state.teams
+            },
         },
         methods: {
             createGame() {
@@ -61,7 +61,7 @@
                     this.$store.dispatch('createGame', {
                         name: this.name,
                         startDate: this.startDate,
-                        teams: this.teams
+                        teams: this.selectedTeams
                     })
                 }
             }

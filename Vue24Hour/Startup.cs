@@ -21,6 +21,7 @@ namespace Vue24Hour
             services.AddSingleton<IAccountService, FakeAccountService>();
             services.AddSingleton<IGameService, FakeGameService>();
             services.AddSingleton<IGameRepository, DomainContext>();
+            services.AddSingleton<ITeamRepository, DomainContext>();
 
             services.AddHostedService<TimedHostedService>();
         }

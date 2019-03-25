@@ -8,10 +8,11 @@ using Vue24Hour.Domain.Repository;
 
 namespace Vue24Hour.Persistence
 {
-    public sealed class DomainContext : IGameRepository
+    public sealed class DomainContext : IGameRepository, ITeamRepository
     {
         //TODO connect to database
         private List<Game> games;
+        private List<Team> teams;
 
         public DomainContext()
         {
@@ -32,6 +33,33 @@ namespace Vue24Hour.Persistence
                     GameState = GameState.Startup,
                 }
             };
+            teams = new List<Team>
+            {
+                new Team
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Rood",
+                    Color = "red"
+                },
+                new Team
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Geel",
+                    Color = "yellow"
+                },
+                new Team
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Blauw",
+                    Color = "blue"
+                },
+                new Team
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Groen",
+                    Color = "green"
+                }
+            };
         }
 
         public Game GetGame(Guid id, params Expression<Func<Game, dynamic>>[] includeProperties)
@@ -45,7 +73,7 @@ namespace Vue24Hour.Persistence
             {
                 Name = createGameRequest.Name,
                 StartDate = createGameRequest.StartDate,
-                Teams = createGameRequest.Teams.Select(Team.CreateTeam).ToArray(),
+                Teams = createGameRequest.SelectedTeams,
                 GameState = GameState.Startup,
                 Id = Guid.NewGuid()
             });
@@ -60,6 +88,16 @@ namespace Vue24Hour.Persistence
         public IEnumerable<Game> GetAllGames(params Expression<Func<Game, dynamic>>[] includeProperties)
         {
             return games;
+        }
+
+        public Team GetTeam(Guid id, params Expression<Func<Team, dynamic>>[] includeProperties)
+        {
+            return teams.Single(_ => _.Id == id);
+        }
+
+        public IEnumerable<Team> GetAllTeams(params Expression<Func<Team, dynamic>>[] includeProperties)
+        {
+            return teams;
         }
     }
 }

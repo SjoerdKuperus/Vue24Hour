@@ -11,7 +11,8 @@ export const state = {
     locationCoords: {},
     accounts: [],
     games: [],
-    game: null
+    game: null,
+    teams: []
 }
 
 export const mutations = {
@@ -55,5 +56,8 @@ export const mutations = {
     },
     loadGame(state, game) {
         state.game = game || null;
-    }
+    },
+    loadTeams(state, teams) {
+        state.teams = teams || [];
+    },
 }

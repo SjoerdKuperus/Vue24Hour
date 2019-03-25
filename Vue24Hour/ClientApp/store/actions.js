@@ -113,4 +113,13 @@ export const actions = {
             commit('loadGame', game);
         }
     },
+
+    async getAllTeams({ commit }) {
+        let response = await axios.get('/api/team');
+
+        if (response && response.data) {
+            let updatedTeams = response.data;
+            commit('loadTeams', updatedTeams);
+        }
+    },
 }

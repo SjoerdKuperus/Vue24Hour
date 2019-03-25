@@ -12,5 +12,6 @@ namespace Vue24Hour.Services
         Task<GameItemModel> GetGame(Guid id);
         void CreateGame(CreateGameRequest createGameRequest);
         void ActivateGame(Guid id);
+        Task<IEnumerable<TeamItemModel>> GetTeams();
     }
 }
