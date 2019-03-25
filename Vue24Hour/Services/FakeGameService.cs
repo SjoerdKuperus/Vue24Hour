@@ -47,5 +47,20 @@ namespace Vue24Hour.Services
         {
             return Task.FromResult(_teamRepository.GetAllTeams().Select(TeamItemModel.MapFrom));
         }
+
+        public void CreateTestEvents(Guid id)
+        {
+            var game = _gameRepository.GetGame(id);
+            game.ControlEvents = new List<ControlEvent>()
+            {
+                new ControlEvent()
+                {
+                    StartDateTime = DateTime.Now,
+                    EndDateTime = DateTime.Now.AddMinutes(1),
+                    Quadrant = game.Quadrants.First(),
+                    Team = game.Teams.First()
+                }
+            };
+        }
     }
 }

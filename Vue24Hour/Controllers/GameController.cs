@@ -52,6 +52,13 @@ namespace Vue24Hour.Controllers
             _gameService.ActivateGame(new Guid(game.id));
             return Ok();
         }
+
+        [HttpPost("createTestEvents")]
+        public async Task<IActionResult> CreateTestEvents([FromBody] ActivateGameModel game)
+        {
+            _gameService.CreateTestEvents(new Guid(game.id));
+            return Ok();
+        }
     }
 
     public class ActivateGameModel

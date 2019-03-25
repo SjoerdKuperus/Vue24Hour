@@ -16,23 +16,7 @@ namespace Vue24Hour.Persistence
 
         public DomainContext()
         {
-            games = new List<Game>
-            {
-                new Game
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Spel 1",
-                    StartDate = DateTime.Today,
-                    GameState = GameState.Startup,
-                },
-                new Game
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Spel Oud",
-                    StartDate = DateTime.Today.AddDays(-10),
-                    GameState = GameState.Startup,
-                }
-            };
+            games = new List<Game>();
             teams = new List<Team>
             {
                 new Team

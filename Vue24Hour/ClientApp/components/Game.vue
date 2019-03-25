@@ -14,6 +14,7 @@
                 <div class="col-sm-3">Game status:</div>
                 <div class="col-sm-3" v-text="game.gameState"></div>
                 <div v-if="gameStateStartup" class="col-sm-6"><button v-on:click="activateGame" class="btn">Activate game</button></div>
+                <div v-else class="col-sm-6"><button v-on:click="createTestEvents" class="btn">Create test events</button></div>
             </div>
             <div class="row">
                 <div class="col-sm-3">Aantal kwadranten:</div><div class="col-sm-9" v-text="game.quadrantCount"></div>
@@ -35,6 +36,12 @@
             <!--The div in which the map will be created-->
             <div id="map-container"></div>
         </p>
+        <hr />
+        <p>
+            <h3>Events</h3>
+            <event-item v-for="(eventItem, index) in eventItems" :key="index" :item="eventItem"></event-item>
+        </p>
+        <hr />
         <router-link to="/">Terug</router-link>
     </div>
 </template>
@@ -42,9 +49,10 @@
 <script>
     import GameItem from './GameItem'
     import TeamItem from './TeamItem'
+    import EventItem from './EventItem'
 
     export default {
-        components: { GameItem, TeamItem},
+        components: { GameItem, TeamItem, EventItem},
         mounted() {
             this.$store.dispatch('getGame', this.$route.params.id);
         },
@@ -62,6 +70,9 @@
             teams() {
                 return this.$store.state.game != null ? this.$store.state.game.teams : [];
             },
+            eventItems() {
+                return this.$store.state.game != null ? this.$store.state.game.controlEvents : [];
+            },
         },
         created() {
             let mapBoxScript = document.createElement('script')
@@ -75,6 +86,11 @@
             activateGame() {
                 this.$store.dispatch('activateGame', {
                     id: this.$store.state.game.id                    
+                })
+            },
+            createTestEvents() {
+                this.$store.dispatch('createTestEvents', {
+                    id: this.$store.state.game.id
                 })
             },
             showMap() {

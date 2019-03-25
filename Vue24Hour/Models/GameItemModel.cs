@@ -15,6 +15,7 @@ namespace Vue24Hour.Models
         public double[] CenterLocationCoords { get; set; }
         public QuadrantItemModel[] Quadrants { get; set; }
         public TeamItemModel[] Teams { get; set; }
+        public ControlEventModel[] ControlEvents { get; set; }
 
         public static GameItemModel MapFrom(Game game)
         {
@@ -28,7 +29,29 @@ namespace Vue24Hour.Models
                 GameCenter = "" + game.GameCenter.Longitude + ", " + game.GameCenter.Latitude,
                 CenterLocationCoords = new[] {game.GameCenter.Longitude, game.GameCenter.Latitude},
                 Quadrants = game.Quadrants.Select(QuadrantItemModel.MapFrom).ToArray(),
-                Teams = game.Teams.Select(TeamItemModel.MapFrom).ToArray()
+                Teams = game.Teams.Select(TeamItemModel.MapFrom).ToArray(),
+                ControlEvents = game.ControlEvents.Select(ControlEventModel.MapFrom).ToArray()
+            };
+        }
+    }
+
+    public class ControlEventModel
+    {
+        public Guid TeamId { get; set; }
+        public DateTime StartDateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
+        public Guid QuadrantId { get; set; }
+        public string Description { get; set; }
+
+        public static ControlEventModel MapFrom(ControlEvent controlEvent)
+        {
+            return new ControlEventModel
+            {
+                TeamId = controlEvent.Team.Id,
+                QuadrantId = controlEvent.Quadrant.Id,
+                StartDateTime = controlEvent.StartDateTime,
+                EndDateTime = controlEvent.EndDateTime,
+                Description =  "(" + controlEvent.StartDateTime.ToString("hh:mm:ss") + " / " + controlEvent.EndDateTime.ToString("hh:mm:ss") + ") Team " + controlEvent.Team.Name + " takes area " + controlEvent.Quadrant.Id
             };
         }
     }

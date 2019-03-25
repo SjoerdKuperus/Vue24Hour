@@ -88,6 +88,13 @@ export const actions = {
             });
     },
 
+    async createTestEvents({ dispatch, commit }, data) {
+        await axios.post('/api/game/createTestEvents', data)
+            .then((res) => {
+                router.push('/');
+            });
+    },
+
     async getAllAccounts({ commit }) {
         let response = await axios.get('/api/account');
 
