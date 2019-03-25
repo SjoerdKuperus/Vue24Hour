@@ -81,7 +81,7 @@ namespace Vue24Hour.Domain.Model
             // Read of the features from geoJson file.
 
             // get the JSON file content
-            var path = "C:\\Ontwik\\Innovation\\Vue24Hour\\Vue24Hour\\MapData\\TestDataV1.geojson";
+            var path = "C:\\Ontwik\\Innovation\\Vue24Hour\\Vue24Hour\\MapData\\TestDataV2.geojson";
             var jsonData = File.ReadAllText(path);
 
             GeoJson data = JsonConvert.DeserializeObject<GeoJson>(jsonData);

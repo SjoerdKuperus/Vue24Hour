@@ -82,14 +82,14 @@
                 var map = new mapboxgl.Map({
                     container: 'map-container',
                     style: 'https://geodata.nationaalgeoregister.nl/beta/topotiles-viewer/styles/achtergrond.json',
-                    zoom: 14,
+                    zoom: 13,
                     center: center
                 });
                 // Add zoom and rotation controls to the map.
                 map.addControl(new mapboxgl.NavigationControl(), "top-left");
 
                 var features = [];
-                var colors = ["#FF4747", "#FF9A47", "#35BDBD", "#3EDE3E"];
+                var colors = ["#FF4747", "#FF9A47", "#35BDBD", "#3EDE3E", "#35BD79"];
                 var colorCount = 0;
                 for (var i = 0; i < this.$store.state.game.quadrants.length; i++) {
                     var newFeature = {
@@ -104,7 +104,7 @@
                     };
                     features.push(newFeature);
                     colorCount++;
-                    if (colorCount == 4) {
+                    if (colorCount == 5) {
                         colorCount = 0;
                     }
                 }
@@ -127,7 +127,8 @@
                         "source": "gridData",
                         "paint": {
                             'fill-color': ['get', 'color'],
-                            "fill-opacity": 0.8
+                            "fill-opacity": 0.4,
+                            "fill-outline-color" : "#333333"
                         },
                         "filter": ["==", "$type", "Polygon"]
                     });
