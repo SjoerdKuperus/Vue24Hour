@@ -78,7 +78,8 @@ Doelen:
 * Opzet meerdere kwadranten in een game.
 * Game loop
 
+(25 maart 2019)
 Acties:
-
-
-TODOS:
+* 4 vaste teams toegevoegd, met eigen kleur
+* Geojson bestand (dat door mapbox wordt gegenereerd) in gelezen met 16 quadranten
+* Eerste opzet met controlEvents
