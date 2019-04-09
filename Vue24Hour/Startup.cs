@@ -17,7 +17,6 @@ namespace Vue24Hour
         {
             // Add framework services.
             services.AddMvc();
-            services.AddSingleton<ITodoItemService, FakeTodoItemService>();
             services.AddSingleton<IAccountService, FakeAccountService>();
             services.AddSingleton<IGameService, FakeGameService>();
             services.AddSingleton<IGameRepository, DomainContext>();

@@ -1,7 +1,6 @@
 import router from '../router'
 
 export const state = {
-    todos: [],
     loggedIn: false,
     loginError: null,
     createAccountError: null,
@@ -23,12 +22,10 @@ export const mutations = {
         let redirectTo = state.route.query.redirect || '/';
         router.push(redirectTo);
     },
-
     loggedOut(state) {
         state.loggedIn = false;
         router.push('/login');
     },
-
     loginError(state, message) {
         state.loginError = message;
     },
@@ -37,10 +34,6 @@ export const mutations = {
     },
     createGameError(state, message) {
         state.createGameError = message;
-    },
-
-    loadTodos(state, todos) {
-        state.todos = todos || [];
     },
     setLocation(state, locationName) {
         state.locationName = locationName;

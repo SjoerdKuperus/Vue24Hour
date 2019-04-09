@@ -14,7 +14,7 @@ namespace Vue24Hour.Controllers
             _accountService = accountService;
         }
 
-        // Handles GET /api/todo
+        // Handles GET /api/account
         [HttpGet]
         public async Task<IActionResult> GetAllAccounts()
         {
@@ -22,7 +22,7 @@ namespace Vue24Hour.Controllers
             return Ok(accounts);
         }
 
-        // POST /api/todo
+        // POST /api/account
         [HttpPost]
         public async Task<IActionResult> AddAccount([FromBody] AccountModel newAccount)
         {

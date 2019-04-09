@@ -14,5 +14,4 @@ new Vue({
     template: '<App/>',
     components: { App }
 });
-
 store.dispatch('checkLoggedIn');

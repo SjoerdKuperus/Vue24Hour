@@ -83,3 +83,12 @@ Acties:
 * 4 vaste teams toegevoegd, met eigen kleur
 * Geojson bestand (dat door mapbox wordt gegenereerd) in gelezen met 16 quadranten
 * Eerste opzet met controlEvents
+
+(9 april)
+Doelen:
+* PWA
+* Remove todo app parts
+* Continue with events (Replay game)
+
+Acties:
+* Removed todo parts.

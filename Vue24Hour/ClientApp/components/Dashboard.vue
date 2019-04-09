@@ -17,8 +17,6 @@
         <br />
         <br />
         <br />
-
-
         <router-link to="/logout">Uitloggen</router-link>
         <hr />
         <p>
@@ -29,49 +27,23 @@
 </template>
 
 <script>
-    import TodoItem from './TodoItem'
     import GameItem from './GameItem'
 
     export default {
-        components: { TodoItem, GameItem},
+        components: { GameItem},
         mounted() {
-            this.$store.dispatch('getAllTodos');
             this.$store.dispatch('getAllGames');
         },
         computed: {
             name() {
                 return this.$store.state.userName
-            },
-            todos() {
-                return this.$store.state.todos
-            },
+            },            
             games() {
                 return this.$store.state.games
             },
         },
-        methods: {
-            addTodo(e) {
-                var text = e.target.value || ''
-                text = text.trim()
-
-                if (text.length) {
-                    this.$store.dispatch('addTodo', { text })
-                }
-
-                e.target.value = ''
-            },
-        }
+        methods: {}
     }
 </script>
-
-<style>
-    .new-todo {
-        width: 100%;
-        font-size: 18px;
-        margin-bottom: 15px;
-        border-top-width: 0;
-        border-left-width: 0;
-        border-right-width: 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    }
+<style>    
 </style>
