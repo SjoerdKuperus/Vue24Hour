@@ -92,3 +92,4 @@ Doelen:
 
 Acties:
 * Removed todo parts.
+* Replay events, with correct color for team on map.

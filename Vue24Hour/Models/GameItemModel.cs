@@ -37,17 +37,21 @@ namespace Vue24Hour.Models
 
     public class ControlEventModel
     {
+        public Guid Id { get; set; }
         public Guid TeamId { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public Guid QuadrantId { get; set; }
+        public string TeamColor { get; set; }
         public string Description { get; set; }
 
         public static ControlEventModel MapFrom(ControlEvent controlEvent)
         {
             return new ControlEventModel
             {
+                Id =  controlEvent.Id,
                 TeamId = controlEvent.Team.Id,
+                TeamColor = controlEvent.Team.Color,
                 QuadrantId = controlEvent.Quadrant.Id,
                 StartDateTime = controlEvent.StartDateTime,
                 EndDateTime = controlEvent.EndDateTime,
@@ -70,12 +74,14 @@ namespace Vue24Hour.Models
 
     public class QuadrantItemModel
     {
+        public Guid Id { get; set; }
         public double[] CenterPoint { get; set; }
         public BorderItemModel[] Border { get; set; }
 
         public static QuadrantItemModel MapFrom(Quadrant quadrant)
         {
             var quadrantItem = new QuadrantItemModel();
+            quadrantItem.Id = quadrant.Id;
             quadrantItem.CenterPoint = new[] {quadrant.CenterPoint.Longitude, quadrant.CenterPoint.Latitude};
             quadrantItem.Border = new BorderItemModel[quadrant.Border.Count];
             var index = 0;

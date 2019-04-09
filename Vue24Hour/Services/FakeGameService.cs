@@ -34,7 +34,8 @@ namespace Vue24Hour.Services
 
         public void CreateGame(CreateGameRequest createGameRequest)
         {
-            createGameRequest.SelectedTeams = createGameRequest.Teams.Select(_ => _teamRepository.GetTeam(new Guid(_))).ToArray();
+            createGameRequest.SelectedTeams =
+                createGameRequest.Teams.Select(_ => _teamRepository.GetTeam(new Guid(_))).ToArray();
             _gameRepository.CreateGame(createGameRequest);
         }
 
@@ -51,14 +52,44 @@ namespace Vue24Hour.Services
         public void CreateTestEvents(Guid id)
         {
             var game = _gameRepository.GetGame(id);
+            var teams = game.Teams;
+            var firstTeam = teams.ToArray()[0];
+            var secondTeam = teams.ToArray()[1];
+            var gameStartMoment = game.StartDate.Date;
+
             game.ControlEvents = new List<ControlEvent>()
             {
                 new ControlEvent()
                 {
-                    StartDateTime = DateTime.Now,
-                    EndDateTime = DateTime.Now.AddMinutes(1),
+                    Id = Guid.NewGuid(),
+                    StartDateTime = gameStartMoment,
+                    EndDateTime = gameStartMoment.AddMinutes(1),
                     Quadrant = game.Quadrants.First(),
-                    Team = game.Teams.First()
+                    Team = firstTeam
+                },
+                new ControlEvent()
+                {
+                    Id = Guid.NewGuid(),
+                    StartDateTime = gameStartMoment,
+                    EndDateTime = gameStartMoment.AddMinutes(1),
+                    Quadrant = game.Quadrants.Last(),
+                    Team = secondTeam
+                },
+                new ControlEvent()
+                {
+                    Id = Guid.NewGuid(),
+                    StartDateTime = gameStartMoment.AddMinutes(1),
+                    EndDateTime = gameStartMoment.AddMinutes(2),
+                    Quadrant = game.Quadrants.ToArray()[1],
+                    Team = firstTeam
+                },
+                new ControlEvent()
+                {
+                    Id = Guid.NewGuid(),
+                    StartDateTime = gameStartMoment.AddMinutes(1),
+                    EndDateTime = gameStartMoment.AddMinutes(2),
+                    Quadrant = game.Quadrants.ToArray()[14],
+                    Team = secondTeam
                 }
             };
         }

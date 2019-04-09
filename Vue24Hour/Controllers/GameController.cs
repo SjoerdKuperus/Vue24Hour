@@ -50,14 +50,16 @@ namespace Vue24Hour.Controllers
         public async Task<IActionResult> ActivateGame([FromBody] ActivateGameModel game)
         {
             _gameService.ActivateGame(new Guid(game.id));
-            return Ok();
+            var activatedGame = await _gameService.GetGame(new Guid(game.id));
+            return Ok(activatedGame);
         }
 
         [HttpPost("createTestEvents")]
         public async Task<IActionResult> CreateTestEvents([FromBody] ActivateGameModel game)
         {
             _gameService.CreateTestEvents(new Guid(game.id));
-            return Ok();
+            var gameWithEvents = await _gameService.GetGame(new Guid(game.id));
+            return Ok(gameWithEvents);
         }
     }
 

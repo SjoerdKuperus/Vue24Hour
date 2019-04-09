@@ -59,15 +59,17 @@ export const actions = {
 
     async activateGame({ dispatch, commit }, data) {
         await axios.post('/api/game/activate', data)
-            .then((res) => {
-                router.push('/');
+            .then((response) => {
+                let game = response.data;
+                commit('loadGame', game);
             });
     },
 
     async createTestEvents({ dispatch, commit }, data) {
         await axios.post('/api/game/createTestEvents', data)
-            .then((res) => {
-                router.push('/');
+            .then((response) => {
+                let game = response.data;
+                commit('loadGame', game);
             });
     },
 
