@@ -103,4 +103,4 @@ Doelen:
 Acties:
 * Added jsonDatabase serialisation for persistance.
 * Accounts are also serialized.
-
+* Deployment to azure.
