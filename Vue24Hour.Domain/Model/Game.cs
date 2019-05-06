@@ -23,7 +23,10 @@ namespace Vue24Hour.Domain.Model
             Quadrants = new HashSet<Quadrant>();
             ControlEvents = new HashSet<ControlEvent>();
             Teams = new HashSet<Team>();
+        }
 
+        public void FillFakeQuadrantData()
+        {
             //Temp data.
             GameCenter = new GeoCoordinate(52.0907336, 5.1217543); //Dom van utrecht //52.0907336,5.1217543
 
@@ -54,6 +57,7 @@ namespace Vue24Hour.Domain.Model
                                 newQuadrant.Border.Add(new GeoCoordinate(point.Latitude, point.Longitude));
                             }
                         }
+
                         Quadrants.Add(newQuadrant);
                     }
                 }

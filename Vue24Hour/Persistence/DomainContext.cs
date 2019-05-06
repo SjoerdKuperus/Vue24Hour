@@ -28,14 +28,16 @@ namespace Vue24Hour.Persistence
 
         public void CreateGame(CreateGameRequest createGameRequest)
         {
-            _jsonDatabase.games.Add(new Game
+            var newGame = new Game
             {
                 Name = createGameRequest.Name,
                 StartDate = createGameRequest.StartDate,
                 Teams = createGameRequest.SelectedTeams,
                 GameState = GameState.Startup,
                 Id = Guid.NewGuid()
-            });
+            };
+            newGame.FillFakeQuadrantData();
+            _jsonDatabase.games.Add(newGame);
             SaveChanges();
         }
 
