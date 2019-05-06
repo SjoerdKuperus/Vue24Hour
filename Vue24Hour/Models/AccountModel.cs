@@ -11,6 +11,10 @@ namespace Vue24Hour.Models
 
         internal static AccountModel MapFrom(Account account)
         {
+            if (account == null)
+            {
+                return null;
+            }
             return new AccountModel
             {
                 Name = account.Name,

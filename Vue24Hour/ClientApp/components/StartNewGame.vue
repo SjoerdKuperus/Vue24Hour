@@ -18,7 +18,7 @@
                     </option>
                 </select>
             </div>
-            <button type="submit" class="btn">Start nieuw spel</button>
+            <button type="submit" class="btn btn-primary">Start nieuw spel</button>
             <br />
             <br />
             <p v-if="createGameError" class="alert alert-danger">{{createGameError}}</p>

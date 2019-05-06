@@ -17,7 +17,7 @@
                 <label for="password">Wachtwoord</label>
                 <input id="password" v-model="password" placeholder="" type="password" class="form-control">
             </div>
-            <button type="submit" class="btn">login</button>
+            <button type="submit" class="btn btn-primary">login</button>
             <p v-if="loginError" class="error">{{loginError}}</p>
         </form>
         <hr />

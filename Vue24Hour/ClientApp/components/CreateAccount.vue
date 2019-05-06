@@ -26,7 +26,7 @@
                 <label for="password2">Herhaal wachtwoord</label>
                 <input id="password2" v-model="password2" placeholder="" class="form-control">
             </div>
-            <button type="submit" class="btn">aanmaken account</button>
+            <button type="submit" class="btn btn-primary">aanmaken account</button>
             <router-link to="/logout">annuleren</router-link>
             <p v-if="createAccountError" class="error">{{createAccountError}}</p>
             <p v-if="formError" class="error">{{formError}}</p>

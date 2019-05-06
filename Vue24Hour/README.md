@@ -96,7 +96,11 @@ Acties:
 
 (6 mei)
 Doelen:
-* Create persitance
+* Create persistance
+* Deploy to test envrionment
+* PWA 
 
 Acties:
+* Added jsonDatabase serialisation for persistance.
+* Accounts are also serialized.
 

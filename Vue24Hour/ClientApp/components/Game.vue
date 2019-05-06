@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard">
+    <div class="dashboard container-fluid">
         <h2>Game: {{game.startDate}} </h2>
         <hr />
         <p>
@@ -13,8 +13,8 @@
             <div class="row">
                 <div class="col-sm-3">Game status:</div>
                 <div class="col-sm-3" v-text="game.gameState"></div>
-                <div v-if="gameStateStartup" class="col-sm-6"><button v-on:click="activateGame" class="btn">Activate game</button></div>
-                <div v-else class="col-sm-6"><button v-on:click="createTestEvents" class="btn">Create test events</button></div>
+                <div v-if="gameStateStartup" class="col-sm-6"><button v-on:click="activateGame" class="btn btn-primary">Activate game</button></div>
+                <div v-else class="col-sm-6"><button v-on:click="createTestEvents" class="btn btn-primary">Create test events</button></div>
             </div>
             <div class="row">
                 <div class="col-sm-3">Aantal kwadranten:</div><div class="col-sm-9" v-text="game.quadrantCount"></div>
@@ -39,8 +39,8 @@
             <div class="row eventHeader">
                 <h3 class="col-lg-2">Events</h3>
                 <div class="col-lg-10 eventControls" v-if="eventItems.length > 0">
-                    <button class="btn btn-sm" v-on:click="prevEvent" v-bind:disabled="this.eventCounter === 0">prev</button>
-                    <button class="btn btn-sm" v-on:click="nextEvent" v-bind:disabled="this.eventCounter === this.eventItems.length - 1">next</button>
+                    <button class="btn btn-primary btn-sm" v-on:click="prevEvent" v-bind:disabled="this.eventCounter === 0">prev</button>
+                    <button class="btn btn-primary btn-sm" v-on:click="nextEvent" v-bind:disabled="this.eventCounter === this.eventItems.length - 1">next</button>
                     <span>{{eventCounter}}</span>
                 </div>
             </div>            
