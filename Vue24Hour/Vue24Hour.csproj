@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>55b9971f-addf-4524-bc24-b0b1ec3465d3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vue24Hour.Domain\Vue24Hour.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="MapData\Database.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="MapData\TestDataV2.geojson">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

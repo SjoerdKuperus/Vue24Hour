@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using BAMCIS.GeoJSON;
+using GeoCoordinatePortable;
 using Newtonsoft.Json;
 using Vue24Hour.Domain.Model;
 using Vue24Hour.Domain.Model.Requests;
@@ -13,10 +15,11 @@ namespace Vue24Hour.Persistence
     public sealed class DomainContext : IGameRepository, ITeamRepository, IAccountRepository
     {
         private JsonDatabase _jsonDatabase;
-        private string path = "C:\\Ontwik\\Innovation\\Vue24Hour\\Vue24Hour\\MapData\\Database.json";
+        private string path;
 
         public DomainContext()
         {
+            path = AppDomain.CurrentDomain.BaseDirectory + "\\MapData\\Database.json";
             var jsonData = File.ReadAllText(path);
             _jsonDatabase = JsonConvert.DeserializeObject<JsonDatabase>(jsonData);
         }
@@ -36,9 +39,48 @@ namespace Vue24Hour.Persistence
                 GameState = GameState.Startup,
                 Id = Guid.NewGuid()
             };
-            newGame.FillFakeQuadrantData();
+            FillFakeQuadrantData(newGame);
             _jsonDatabase.games.Add(newGame);
             SaveChanges();
+        }
+
+        public void FillFakeQuadrantData(Game game)
+        {
+            //Temp data.
+            game.GameCenter = new GeoCoordinate(52.0907336, 5.1217543); //Dom van utrecht //52.0907336,5.1217543
+
+            // Read of the features from geoJson file.
+
+            // get the JSON file content
+            var path = AppDomain.CurrentDomain.BaseDirectory + "\\MapData\\TestDataV2.geojson";
+            var jsonData = File.ReadAllText(path);
+
+            GeoJson data = JsonConvert.DeserializeObject<GeoJson>(jsonData);
+            FeatureCollection features = data as FeatureCollection;
+            if (features != null)
+            {
+                foreach (var feature in features.Features)
+                {
+                    var geometry = feature.Geometry;
+                    Polygon polygon = geometry as Polygon;
+                    if (polygon != null)
+                    {
+                        var newQuadrant = new Quadrant();
+                        newQuadrant.CenterPoint = new GeoCoordinate(52.0907336, 5.1217543); // TODO?
+
+                        foreach (var polygonCoords in polygon.Coordinates)
+                        {
+                            var positions = polygonCoords.Coordinates;
+                            foreach (var point in positions)
+                            {
+                                newQuadrant.Border.Add(new GeoCoordinate(point.Latitude, point.Longitude));
+                            }
+                        }
+
+                        game.Quadrants.Add(newQuadrant);
+                    }
+                }
+            }
         }
 
         public void SetGameState(Guid id, GameState gameState)
