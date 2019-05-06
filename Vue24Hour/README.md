@@ -93,3 +93,10 @@ Doelen:
 Acties:
 * Removed todo parts.
 * Replay events, with correct color for team on map.
+
+(6 mei)
+Doelen:
+* Create persitance
+
+Acties:
+
