@@ -17,11 +17,14 @@ namespace Vue24Hour
         {
             // Add framework services.
             services.AddMvc();
-            services.AddSingleton<IAccountService, FakeAccountService>();
-            services.AddSingleton<IGameService, FakeGameService>();
+            // Services
+            services.AddSingleton<IAccountService, AccountService>();
+            services.AddSingleton<IGameService, GameService>();
+            // Repositories
             services.AddSingleton<IGameRepository, DomainContext>();
             services.AddSingleton<ITeamRepository, DomainContext>();
-
+            services.AddSingleton<IAccountRepository, DomainContext>();
+            // TimeHostedService
             services.AddHostedService<TimedHostedService>();
         }
 

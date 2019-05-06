@@ -1,3 +1,5 @@
+using Vue24Hour.Domain.Model;
+
 namespace Vue24Hour.Models
 {
     public class AccountModel
@@ -6,6 +8,15 @@ namespace Vue24Hour.Models
         public string Phone { get; set; }
         public string Password { get; set; }
         public string Password2 { get; set; }
+
+        internal static AccountModel MapFrom(Account account)
+        {
+            return new AccountModel
+            {
+                Name = account.Name,
+                Phone = account.Phone
+            };
+        }
     }
 
     public class LoginModel

@@ -9,12 +9,12 @@ using Vue24Hour.Models;
 
 namespace Vue24Hour.Services
 {
-    public class FakeGameService : IGameService
+    public class GameService : IGameService
     {
         private IGameRepository _gameRepository;
         private ITeamRepository _teamRepository;
 
-        public FakeGameService(IGameRepository gameRepository, ITeamRepository teamRepository)
+        public GameService(IGameRepository gameRepository, ITeamRepository teamRepository)
         {
             _gameRepository = gameRepository;
             _teamRepository = teamRepository;

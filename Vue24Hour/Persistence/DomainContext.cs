@@ -10,7 +10,7 @@ using Vue24Hour.Domain.Repository;
 
 namespace Vue24Hour.Persistence
 {
-    public sealed class DomainContext : IGameRepository, ITeamRepository
+    public sealed class DomainContext : IGameRepository, ITeamRepository, IAccountRepository
     {
         private JsonDatabase _jsonDatabase;
         private string path = "C:\\Ontwik\\Innovation\\Vue24Hour\\Vue24Hour\\MapData\\Database.json";
@@ -66,17 +66,41 @@ namespace Vue24Hour.Persistence
             var newData = JsonConvert.SerializeObject(_jsonDatabase);
             File.WriteAllText(path, newData);
         }
+
+        public IEnumerable<Account> GetAllAccounts(params Expression<Func<Account, dynamic>>[] includeProperties)
+        {
+            return _jsonDatabase.accounts;
+        }
+
+        public void CreateAccount(string phone, string password, string name)
+        {
+            _jsonDatabase.accounts.Add(new Account
+            {
+                Name = name,
+                Password = password,
+                Phone = phone,
+                Id = Guid.NewGuid()
+            });
+            SaveChanges();
+        }
+
+        public Account GetAccount(string phone, string password)
+        {
+            return _jsonDatabase.accounts.SingleOrDefault(_ => _.Phone == phone && _.Password == password);
+        }
     }
 
     public class JsonDatabase
     {
         public List<Game> games;
         public List<Team> teams;
+        public List<Account> accounts;
 
         public JsonDatabase()
         {
             games = new List<Game>();
             teams = new List<Team>();
+            accounts = new List<Account>();
         }
     }
 }
