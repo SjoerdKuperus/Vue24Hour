@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <Folder Include="MapData\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
