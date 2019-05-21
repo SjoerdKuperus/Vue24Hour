@@ -104,3 +104,10 @@ Acties:
 * Added jsonDatabase serialisation for persistance.
 * Accounts are also serialized.
 * Deployment to azure.
+
+(21 mei)
+Doelen:
+* PWA
+* Responsive design
+
+Acties:
