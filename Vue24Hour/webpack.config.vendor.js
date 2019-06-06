@@ -14,11 +14,16 @@ module.exports = (env) => {
         module: {
             rules: [
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' },
-                { test: /\.css(\?|$)/, use: extractCSS.extract(['css-loader']) }
+                {
+                    test: /\.(s*)css(\?|$)/, use: extractCSS.extract({
+                        fallback: 'style-loader',
+                        use: ['css-loader', 'sass-loader'],
+                    })
+                }
             ]
         },
         entry: {
-            vendor: ['bootstrap', 'bootstrap/dist/css/bootstrap.css', 'event-source-polyfill', 'vue', 'vuex', 'axios', 'vue-router', 'jquery'],
+            vendor: ['bootstrap', 'event-source-polyfill', 'vue', 'vuex', 'axios', 'vue-router', 'jquery', './ClientApp/style.js'],
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),

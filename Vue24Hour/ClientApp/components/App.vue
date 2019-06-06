@@ -24,10 +24,13 @@
         padding: 0;
     }
     body {
-        font: 14px -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+        /*font: 14px -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
         line-height: 1.4em;
         background: #F3F5F6;
-        color: #4d4d4d;
+        color: #4d4d4d;*/
+        background: #00b09b; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #96c93d, #00b09b); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #96c93d, #00b09b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
     ul {
         padding: 0;
@@ -41,7 +44,7 @@
         justify-content: center;
     }
     .app-view {
-        background: #fff;
+        background: #272B30;
         position: relative;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.1);
     }

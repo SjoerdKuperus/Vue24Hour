@@ -116,3 +116,10 @@ https://developers.google.com/web/progressive-web-apps/checklist
 * How javascript workers work.
 https://www.html5rocks.com/en/tutorials/workers/basics/
 * Lighthouse audit now passes all checks!
+
+
+(6 juni)
+Doelen:
+* Improve design
+
+
