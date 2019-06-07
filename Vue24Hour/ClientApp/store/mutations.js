@@ -6,6 +6,7 @@ export const state = {
     createAccountError: null,
     createGameError: null,
     userName: null,
+    openMenu: false,
     locationName: "test1",
     locationCoords: {},
     accounts: [],
@@ -17,7 +18,7 @@ export const state = {
 export const mutations = {
     loggedIn(state, data) {
         state.loggedIn = true;
-        state.userName = (data.name || '').split(' ')[0] || 'Hello';
+        state.userName = data.name; //(data.name || '').split(' ')[0] || 'Hello';
 
         let redirectTo = state.route.query.redirect || '/';
         router.push(redirectTo);

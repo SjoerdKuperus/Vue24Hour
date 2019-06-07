@@ -1,14 +1,13 @@
 <template>
     <div>
         <h2>Aanmaken nieuw account</h2>
-        <hr />
+        <div class="horizontalLine"></div>
         <p>
             Vul alle gegevens hieronder in. Deze zijn nodig om een account voor je te maken.
         </p>
         <p>
             Als je hiermee klaar bent kan je deelnemen aan het 24 uur spel!
         </p>
-        <hr />
         <form @submit.prevent="createAccount" autocomplete="off">
             <div class="form-group">
                 <label for="phone">Naam</label>
@@ -20,14 +19,16 @@
             </div>
             <div class="form-group">
                 <label for="password">Wachtwoord</label>
-                <input id="password" v-model="password" placeholder="" class="form-control">
+                <input id="password" v-model="password" placeholder="" class="form-control" type="password">
             </div>
             <div class="form-group">
                 <label for="password2">Herhaal wachtwoord</label>
-                <input id="password2" v-model="password2" placeholder="" class="form-control">
+                <input id="password2" v-model="password2" placeholder="" class="form-control" type="password">
             </div>
-            <button type="submit" class="btn btn-primary">aanmaken account</button>
-            <router-link to="/logout">annuleren</router-link>
+            <button type="submit" class="btn btn-secondary">Aanmaken</button>
+            <router-link to="/">
+                <button type="submit" class="btn btn-primary">Annuleren</button>
+            </router-link>
             <p v-if="createAccountError" class="error">{{createAccountError}}</p>
             <p v-if="formError" class="error">{{formError}}</p>
         </form>

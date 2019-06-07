@@ -1,6 +1,8 @@
 <template>
     <div class="dashboard">
-        <h2>Hier kunt u een nieuw 24 uur spel opstarten</h2>
+        <h2>Nieuw spel beginnen</h2>
+        <div class="horizontalLine"></div>
+        <p>Hier kunt je een nieuw 24 uur spel opstarten. Kies een naam en startdatum. En voeg de teams toe die mee spelen.</p>
         <form @submit.prevent="createGame" autocomplete="off">
             <div class="form-group">
                 <label for="name">Naam</label>
@@ -18,14 +20,15 @@
                     </option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Start nieuw spel</button>
-            <br />
-            <br />
-            <p v-if="createGameError" class="alert alert-danger">{{createGameError}}</p>
-            <p v-if="formError" class="alert alert-danger">{{formError}}</p>
+            <div>
+                <button type="submit" class="btn btn-secondary">Start nieuw spel</button>
+                <router-link to="/">
+                    <button type="submit" class="btn btn-primary">Annuleren</button>
+                </router-link>
+                <div v-if="createGameError" class="error alert alert-info float-right">{{createGameError}}</div>
+                <div v-if="formError" class="error alert alert-info float-right">{{formError}}</div>
+            </div>            
         </form>
-        <hr />
-        <router-link to="/">Terug naar overzicht</router-link>
     </div>
 </template>
 
@@ -41,6 +44,7 @@
             }
         },
         mounted() {
+            this.$store.state.createGameError = ""
             this.$store.dispatch('getAllTeams');
         },
         computed: {
@@ -56,6 +60,9 @@
                 if (this.name === "") {
                     this.formError = "Naam mag niet leeg zijn";
                 }
+                else if (this.startDate === "") {
+                    this.formError = "Start datum mag niet leeg zijn";
+                }
                 else {
                     this.formError = "";
                     this.$store.dispatch('createGame', {
@@ -68,4 +75,9 @@
         }
     }
 </script>
-<style></style>
+<style>
+    .error {
+        color: red;
+        margin-bottom: 0px;
+    }
+</style>

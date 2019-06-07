@@ -1,17 +1,22 @@
 <template>
     <div>
-        <h2>Location</h2>
-        stuff
-        <div> {{locationName}}</div>
-        <button @click="getLocation()">Get location</button>
-        <h3> Map stuff</h3>
-
-        <button @click="doMapStuff()">DoMap stuff</button>
+        <h2>Mijn locatie</h2>
+        <div class="horizontalLine"></div>
+        <p>
+            <div>{{locationName}}</div>
+            <div>Om de locatie op te halen moet je dit toestaan in de browser.</div>
+            <br />
+            <button class="btn btn-secondary" @click="getLocation()">Geef locatie</button>
+        </p>
+        <div class="horizontalLine"></div>
         <!--MapboxGLjs CSS-->
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.css' rel='stylesheet' />
         <!--The div in which the map will be created-->
         <div id="map-container"></div>
-
+        <div class="horizontalLine"></div>
+        <router-link to="/">
+            <button class="btn btn-secondary">Terug naar overzicht</button>
+        </router-link>
     </div>
 </template>
 
@@ -34,7 +39,8 @@
             getLocation() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(this.savePosition);
-                } else {
+                    this.doMapStuff();
+;                } else {
                     x.innerHTML = "Geolocation is not supported by this browser.";
                 }
             },

@@ -6,6 +6,7 @@ import Login from './components/Login.vue'
 import Location from './components/Location.vue'
 import CreateAccount from './components/CreateAccount.vue'
 import ListAccounts from './components/ListAccounts.vue'
+import ListGames from './components/ListGames.vue'
 import Game from './components/Game.vue'
 import StartNewGame from './components/StartNewGame.vue'
 
@@ -30,6 +31,7 @@ export default new Router({
         { path: '/login', component: Login },
         { path: '/location', component: Location },
         { path: '/createAccount', component: CreateAccount },
+        { path: '/listGames', component: ListGames },
         { path: '/listAccounts', component: ListAccounts },
         { path: '/game/:id', component: Game },
         { path: '/startNewGame', component: StartNewGame },

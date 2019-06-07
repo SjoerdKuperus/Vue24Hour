@@ -7,6 +7,9 @@ import { sync } from 'vuex-router-sync'
 // Sync Vue router and the Vuex store
 sync(store, router);
 
+// Set the global menu state to closed.
+router.afterEach((to, from) => { store.state.openMenu = false; });
+
 new Vue({
     el: '#app',
     store,

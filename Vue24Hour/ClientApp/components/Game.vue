@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard container-fluid">
-        <h2>Game: {{game.startDate}} </h2>
-        <hr />
+        <h2>{{game.name}} ({{game.startDate}})</h2>
+        <div class="horizontalLine"></div>
         <p>
             <h3>Informatie over deze game:</h3>
             <div class="row">
@@ -23,18 +23,17 @@
                 <div class="col-sm-3">Middenpunt:</div><div class="col-sm-9" v-text="game.gameCenter"></div>
             </div>
         </p>
-        <hr />
         <p>
             <h3>Teams</h3>
             <team-item v-for="(team, teamIndex) in teams" :key="team.id" :item="team"></team-item>
         </p>
-        <hr />
+        <div class="horizontalLine"></div>
         <p>
             <h3>Kaart</h3>
             <!--The div in which the map will be created-->
             <div id="map-container"></div>
         </p>
-        <hr />
+        <div class="horizontalLine"></div>
         <p>
             <div class="row eventHeader">
                 <h3 class="col-lg-2">Events</h3>
@@ -43,11 +42,13 @@
                     <button class="btn btn-primary btn-sm" v-on:click="nextEvent" v-bind:disabled="this.eventCounter === this.eventItems.length - 1">next</button>
                     <span>{{eventCounter}}</span>
                 </div>
-            </div>            
+            </div>
             <event-item v-for="(eventItem, index) in eventItems" :key="eventItem.id" :item="eventItem" :index="index" :eventCounter="eventCounter"></event-item>
         </p>
-        <hr />
-        <router-link to="/">Terug</router-link>
+        <div class="horizontalLine"></div>
+        <router-link to="/listGames">
+            <button class="btn btn-primary">Terug</button>
+        </router-link>
     </div>
 </template>
 

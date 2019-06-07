@@ -118,7 +118,7 @@ https://www.html5rocks.com/en/tutorials/workers/basics/
 * Lighthouse audit now passes all checks!
 
 
-(6 juni)
+(6 & 7 juni)
 Doelen:
 * Improve design
 

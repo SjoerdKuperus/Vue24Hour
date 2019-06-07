@@ -1,13 +1,22 @@
 <template>
     <div>
-        <h2>24 uur spel</h2>
-        <hr />
+        <h2 id="testGame1">24 uur spel</h2>
+        <div class="horizontalLine"></div>
         <p>
-            Welkom bij het 24 uur spel. Om mee te doen moet je eerst een account aanmaken. Dat kan <router-link to="/CreateAccount">Hier</router-link>.
-            Als je al een account hebt kan je inloggen.
+            Welkom bij het 24 uur spel. Om mee te doen moet je eerst een account aanmaken.
         </p>
-        <hr />
-        <div v-if="$route.query.redirect" class="alert alert-warning" role="alert">Je moet eerst inloggen.</div>
+        <router-link to="/CreateAccount">
+            <button id="myButton" class="btn btn-secondary">Aanmelden</button>
+        </router-link>
+        <br />
+        <br />
+        <div class="horizontalLine"></div>
+        <br />
+        <br />
+        <h2>
+            Inloggen
+        </h2>
+        
         <form @submit.prevent="login" autocomplete="off">
             <div class="form-group">
                 <label for="phone">Telefoonnummer</label>
@@ -17,17 +26,21 @@
                 <label for="password">Wachtwoord</label>
                 <input id="password" v-model="password" placeholder="" type="password" class="form-control">
             </div>
-            <button type="submit" class="btn btn-primary">login</button>
-            <p v-if="loginError" class="error">{{loginError}}</p>
+            <div>
+                <button type="submit" class="btn btn-secondary">login</button>
+                <div v-if="loginError" class="error alert alert-info float-right">{{loginError}}</div>
+                <div v-if="$route.query.redirect && !loginError" class="alert alert-info float-right" role="alert">Je moet eerst inloggen.</div>
+            </div>
         </form>
-        <hr />
+        <div class="horizontalLine"></div>
         <p>
+            <br />
             <router-link to="/ListAccounts">Lijst van alle accounts</router-link>
         </p>
     </div>
 </template>
 
-<script>
+<script>    
     export default {
         data() {
             return {
@@ -35,6 +48,11 @@
                 password: '',
                 error: false
             }
+        },
+        mounted() {
+            //reset errors
+            this.$store.state.loginError = "";
+            //$("#testGame1").html("jquery Works!");
         },
         computed: {
             loginError() {

@@ -39,7 +39,15 @@ namespace Vue24Hour.Controllers
         {
             if (string.IsNullOrEmpty(createGameRequest?.Name))
             {
-                return BadRequest("Name mag niet leeg zijn.");
+                return BadRequest("Naam mag niet leeg zijn.");
+            }
+            if (string.IsNullOrEmpty(createGameRequest?.StartDate.ToString("yy-MM-dd")))
+            {
+                return BadRequest("Startdatum mag niet leeg zijn.");
+            }
+            if (createGameRequest.Teams == null || createGameRequest?.Teams.Length < 2)
+            {
+                return BadRequest("Er moeten minimaal 2 teams mee doen.");
             }
 
             _gameService.CreateGame(createGameRequest);

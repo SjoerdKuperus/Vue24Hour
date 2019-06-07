@@ -1,18 +1,13 @@
 <template>
-    <div class="dashboard">
-        <h2>Welkom {{name}}</h2>
+    <div>
+        <h2>Lopende spellen</h2>
         <div class="horizontalLine"></div>
-        <p>
-            <div class="gameStatus">Status:</div>
-            Je doet op dit moment niet mee aan een spel. Wil je je inschrijven voor het volgende spel?
-        </p>
-        <div class="horizontalLine"></div>
-        <router-link to="/startNewGame">
-            <button class="btn btn-secondary">Begin nieuw spel</button>
+        <ul class="account-list">
+            <game-item v-for="(game, index) in games" :key="index" :item="game"></game-item>
+        </ul>
+        <router-link to="/">
+            <button class="btn btn-secondary">Terug naar overzicht</button>
         </router-link>
-        <router-link to="/listGames">
-            <button class="btn btn-secondary">Toon lopende spellen</button>
-        </router-link>        
     </div>
 </template>
 
