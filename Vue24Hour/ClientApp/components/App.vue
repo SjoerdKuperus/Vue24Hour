@@ -84,9 +84,11 @@
     /* Very small devices */
     @media (min-width: 100px) {
         .app-view {
-            min-width: 320px;
+            min-width: 300px;
+            width:100%;
+            max-width: 575px;
             margin: 0px;
-            padding: 20px 4px 15px 5px;
+            padding: 5px 5px 5px 5px;
         }
     }
 

@@ -34,5 +34,8 @@
         methods: {}
     }
 </script>
-<style>    
+<style>
+    .gameStatus {
+        color: white;
+    }
 </style>

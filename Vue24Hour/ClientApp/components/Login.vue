@@ -1,6 +1,10 @@
 <template>
     <div>
-        <h2 id="testGame1">24 uur spel</h2>
+        <div class="w-100">
+            <div class="logo float-left"></div>
+            <h2 class="float-left router-header">24 uur spel</h2>
+        </div>
+        <div class="clearfix"></div>
         <div class="horizontalLine"></div>
         <p>
             Welkom bij het 24 uur spel. Om mee te doen moet je eerst een account aanmaken.
@@ -9,14 +13,11 @@
             <button id="myButton" class="btn btn-secondary">Aanmelden</button>
         </router-link>
         <br />
-        <br />
         <div class="horizontalLine"></div>
-        <br />
         <br />
         <h2>
             Inloggen
         </h2>
-        
         <form @submit.prevent="login" autocomplete="off">
             <div class="form-group">
                 <label for="phone">Telefoonnummer</label>
@@ -71,6 +72,17 @@
 </script>
 
 <style scoped>
+    .logo {
+        width: 50px;
+        height: 50px;
+        background: url("/images/MoonLogo192.png");
+        background-size: 50px 50px;
+    }
+    .router-header{
+        width: calc(100% - 100px);
+        margin-right:50px;
+        color: white;
+    }
     .error {
         color: red;
     }
