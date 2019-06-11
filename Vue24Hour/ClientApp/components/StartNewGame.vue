@@ -9,8 +9,16 @@
                 <input id="name" v-model="name" class="form-control">
             </div>
             <div class="form-group">
+                <label for="name">Locatie</label>
+                <input id="location" v-model="location" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="startDate">Start datum</label>
                 <input id="startDate" type="date" v-model="startDate" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">Maximaal aantal deelnemers</label>
+                <input id="maximumParticipants" type="number" v-model="maximumParticipants" class="form-control">
             </div>
             <div class="form-group">
                 <label for="password">Teams</label>
@@ -27,7 +35,7 @@
                 </router-link>
                 <div v-if="createGameError" class="error alert alert-info float-right">{{createGameError}}</div>
                 <div v-if="formError" class="error alert alert-info float-right">{{formError}}</div>
-            </div>            
+            </div>
         </form>
     </div>
 </template>
@@ -37,6 +45,8 @@
         data() {
             return {
                 name: '',
+                location: '',
+                maximumParticipants: '',
                 startDate: '',
                 selectedTeams: [],
                 error: false,
@@ -67,6 +77,8 @@
                     this.formError = "";
                     this.$store.dispatch('createGame', {
                         name: this.name,
+                        location: this.location,
+                        maximumParticipants: this.maximumParticipants,
                         startDate: this.startDate,
                         teams: this.selectedTeams
                     })

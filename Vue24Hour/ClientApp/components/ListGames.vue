@@ -1,10 +1,17 @@
 <template>
     <div>
-        <h2>Lopende spellen</h2>
+        <h2>Open en lopende spellen</h2>
         <div class="horizontalLine"></div>
-        <ul class="account-list">
+        <div class="game-list container">
+            <div class="row game-list-header">
+                <div class="col-2 font-weight-bold">Datum</div>
+                <div class="col-3 font-weight-bold">Naam</div>
+                <div class="col-3 font-weight-bold">Locatie</div>
+                <div class="col-2 font-weight-bold">Deelnemers</div>
+                <div class="col-2 font-weight-bold">Status</div>
+            </div>
             <game-item v-for="(game, index) in games" :key="index" :item="game"></game-item>
-        </ul>
+        </div>
         <router-link to="/">
             <button class="btn btn-secondary">Terug naar overzicht</button>
         </router-link>
@@ -29,5 +36,12 @@
         methods: {}
     }
 </script>
-<style>    
+<style>
+    .game-list {
+        margin-bottom: 50px;
+    }
+    .game-list-header {
+        line-height: 40px;
+        border-bottom: 1px solid #3A3F44;
+    }
 </style>

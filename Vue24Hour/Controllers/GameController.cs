@@ -41,6 +41,14 @@ namespace Vue24Hour.Controllers
             {
                 return BadRequest("Naam mag niet leeg zijn.");
             }
+            if (string.IsNullOrEmpty(createGameRequest?.Location))
+            {
+                return BadRequest("Locatie mag niet leeg zijn.");
+            }
+            if (createGameRequest?.MaximumParticipants == 0)
+            {
+                return BadRequest("Vul een minimaal aantal deelnemers toe.");
+            }
             if (string.IsNullOrEmpty(createGameRequest?.StartDate.ToString("yy-MM-dd")))
             {
                 return BadRequest("Startdatum mag niet leeg zijn.");

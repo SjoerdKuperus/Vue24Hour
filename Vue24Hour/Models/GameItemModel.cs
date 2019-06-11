@@ -8,7 +8,10 @@ namespace Vue24Hour.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string Location { get; set; }
         public string StartDate { get; set; }
+        public int ActiveParticipants { get; set; }
+        public int MaximumParticipants { get; set; }
         public string GameState { get; set; }
         public int QuadrantCount { get; set; }
         public string GameCenter { get; set; }
@@ -23,7 +26,10 @@ namespace Vue24Hour.Models
             {
                 Id = game.Id,
                 Name = game.Name,
+                Location = game.Location,
                 StartDate = game.StartDate.ToString("dd-MM-yyyy"),
+                ActiveParticipants = game.Teams.Sum(team => team.Players.Count),
+                MaximumParticipants = game.MaximumParticipants,
                 GameState = game.GameState.ToString(),
                 QuadrantCount = game.Quadrants.Count,
                 GameCenter = "" + game.GameCenter.Longitude + ", " + game.GameCenter.Latitude,

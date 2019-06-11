@@ -11,7 +11,7 @@
             <button class="btn btn-secondary">Begin nieuw spel</button>
         </router-link>
         <router-link to="/listGames">
-            <button class="btn btn-secondary">Toon lopende spellen</button>
+            <button class="btn btn-secondary">Toon spellen</button>
         </router-link>        
     </div>
 </template>

@@ -34,6 +34,8 @@ namespace Vue24Hour.Persistence
             var newGame = new Game
             {
                 Name = createGameRequest.Name,
+                Location = createGameRequest.Location,
+                MaximumParticipants = createGameRequest.MaximumParticipants,
                 StartDate = createGameRequest.StartDate,
                 Teams = createGameRequest.SelectedTeams,
                 GameState = GameState.Startup,
@@ -92,7 +94,7 @@ namespace Vue24Hour.Persistence
 
         public IEnumerable<Game> GetAllGames(params Expression<Func<Game, dynamic>>[] includeProperties)
         {
-            return _jsonDatabase.games;
+            return _jsonDatabase.games.OrderBy(_ => _.StartDate);
         }
 
         public Team GetTeam(Guid id, params Expression<Func<Team, dynamic>>[] includeProperties)
