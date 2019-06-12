@@ -80,7 +80,8 @@
                         location: this.location,
                         maximumParticipants: this.maximumParticipants,
                         startDate: this.startDate,
-                        teams: this.selectedTeams
+                        teams: this.selectedTeams,
+                        manager: this.$store.state.userName
                     })
                 }
             }

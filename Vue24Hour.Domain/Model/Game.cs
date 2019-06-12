@@ -13,6 +13,7 @@ namespace Vue24Hour.Domain.Model
         public DateTime StartDate { get; set; }
         public ICollection<Team> Teams { get; set; }
         public GameState GameState { get; set; }
+        public string Manager { get; set; }
         public ICollection<Quadrant> Quadrants { get; set; }
         public GeoCoordinate GameCenter { get; set; }
         public ICollection<ControlEvent> ControlEvents { get; set; }

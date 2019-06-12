@@ -13,6 +13,7 @@ namespace Vue24Hour.Models
         public int ActiveParticipants { get; set; }
         public int MaximumParticipants { get; set; }
         public string GameState { get; set; }
+        public string Manager { get; set; }
         public int QuadrantCount { get; set; }
         public string GameCenter { get; set; }
         public double[] CenterLocationCoords { get; set; }
@@ -31,6 +32,7 @@ namespace Vue24Hour.Models
                 ActiveParticipants = game.Teams.Sum(team => team.Players.Count),
                 MaximumParticipants = game.MaximumParticipants,
                 GameState = game.GameState.ToString(),
+                Manager = game.Manager,
                 QuadrantCount = game.Quadrants.Count,
                 GameCenter = "" + game.GameCenter.Longitude + ", " + game.GameCenter.Latitude,
                 CenterLocationCoords = new[] {game.GameCenter.Longitude, game.GameCenter.Latitude},

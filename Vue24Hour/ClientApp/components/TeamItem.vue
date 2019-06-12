@@ -49,8 +49,6 @@
 
 <style>
     .team {
-        float: left;
-        width: calc(50% - 10px);
         margin: 5px;
         min-height: 50px;
         border: 1px solid #fff;

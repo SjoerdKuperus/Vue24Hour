@@ -16,6 +16,9 @@
                 <div class="col-3 label">Deelnemers</div><div class="col-9">{{game.activeParticipants}}/{{game.maximumParticipants}}</div>
             </div>
             <div class="row">
+                <div class="col-3 label">Beheerder</div><div class="col-9" v-text="game.manager"></div>
+            </div>
+            <div class="row">
                 <div class="col-3 label">Game status</div><div class="col-9" v-text="game.gameState"></div>
             </div>
             <div class="row">
@@ -33,6 +36,21 @@
             <div class="clearfix"></div>
         </p>
         <div class="horizontalLine"></div>
+        <template v-if="isManagerOfGame">
+            <p>
+                <h3>Beheer acties</h3>
+                <div class="row">
+                    <div v-if="gameStateStartup" class="col-12"><button v-on:click="activateGame" class="btn btn-primary">Start spel</button></div>
+                    <div v-else class="col-12"><button v-on:click="createTestEvents" class="btn btn-primary">Create test events</button></div>
+                </div>
+                <div class="row pt-2">
+                    <div v-if="manageMessage !== ''" class="col-12">
+                        <div class=" alert alert-warning">{{manageMessage}}</div>
+                    </div>
+                </div>
+            </p>
+            <div class="horizontalLine"></div>
+        </template>        
         <p>
             <h3>Kaart</h3>
             <!--The div in which the map will be created-->
@@ -40,10 +58,6 @@
         </p>
         <div class="horizontalLine"></div>
         <p>
-            <div class="row">
-                <div v-if="gameStateStartup" class="col-12"><button v-on:click="activateGame" class="btn btn-primary">Activate game</button></div>
-                <div v-else class="col-12"><button v-on:click="createTestEvents" class="btn btn-primary">Create test events</button></div>
-            </div>
             <div class="row eventHeader">
                 <h3 class="col-lg-2">Events</h3>
                 <div class="col-lg-10 eventControls" v-if="eventItems.length > 0">
@@ -75,7 +89,8 @@
         data: function () {
             return {
                 eventCounter: 0,
-                mapboxMap : null
+                mapboxMap: null,
+                manageMessage: "",
             }            
         },
         computed: {
@@ -103,14 +118,32 @@
                 var userName = this.$store.state.userName;
                 return shared.isPlayerInTeams(userName, teams);               
             },
+            isManagerOfGame() {
+                var userName = this.$store.state.userName;
+                return (userName === this.game.manager);
+            },
         },
         created() {},
         updated() {},
         methods: {
             activateGame() {
-                this.$store.dispatch('activateGame', {
-                    id: this.$store.state.game.id
+                var filledHalf = true;
+                var teams = this.$store.state.game.teams;
+                var halfTeamSize = this.maxTeamSize / 2;
+                teams.forEach(function (team) {
+                    if (team.players.length < halfTeamSize) {
+                        filledHalf = false;
+                    }
                 });
+
+                if (filledHalf) {
+                    this.$store.dispatch('activateGame', {
+                        id: this.$store.state.game.id
+                    });
+                }
+                else {
+                    this.manageMessage = "Alle teams moeten minimaal voor de helft gevuld zijn om te starten.";
+                }                
             },
             createTestEvents() {
                 this.$store.dispatch('createTestEvents', {
@@ -134,11 +167,12 @@
                 var map = new mapboxgl.Map({
                     container: 'map-container',
                     style: 'https://geodata.nationaalgeoregister.nl/beta/topotiles-viewer/styles/achtergrond.json',
-                    zoom: 13,
-                    center: center
+                    zoom: 13.2,
+                    center: center,
+                    interactive: false,
                 });
                 // Add zoom and rotation controls to the map.
-                map.addControl(new mapboxgl.NavigationControl(), "top-left");
+                //map.addControl(new mapboxgl.NavigationControl(), "top-left");
                 var componentContext = this;
                 map.on('load', function () {
                     componentContext.addMapSource(this);                    
@@ -241,6 +275,7 @@
         color: #EEE;
     }
     .team-container {
-        
+        display: grid;
+        grid-template-columns: 50% 50%;
     }
 </style>

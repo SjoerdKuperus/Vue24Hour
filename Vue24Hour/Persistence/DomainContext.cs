@@ -38,6 +38,7 @@ namespace Vue24Hour.Persistence
                 MaximumParticipants = createGameRequest.MaximumParticipants,
                 StartDate = createGameRequest.StartDate,
                 Teams = createGameRequest.SelectedTeams,
+                Manager = createGameRequest.Manager,
                 GameState = GameState.Startup,
                 Id = Guid.NewGuid()
             };

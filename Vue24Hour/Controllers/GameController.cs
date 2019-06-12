@@ -57,6 +57,10 @@ namespace Vue24Hour.Controllers
             {
                 return BadRequest("Er moeten minimaal 2 teams mee doen.");
             }
+            if (string.IsNullOrEmpty(createGameRequest?.Manager))
+            {
+                return BadRequest("Er moet een beheerder van de game zijn.");
+            }
 
             _gameService.CreateGame(createGameRequest);
             return Ok();
