@@ -1938,16 +1938,16 @@
 					"Id": "f98cfb66-4c28-454d-b0d4-e3542ed4840d"
 				}
 			],
-			"GameCenter": {
-				"Latitude": 52.0907336,
-				"Longitude": 5.1217543,
-				"HorizontalAccuracy": "NaN",
-				"VerticalAccuracy": "NaN",
-				"Speed": "NaN",
-				"Course": "NaN",
-				"IsUnknown": false,
-				"Altitude": "NaN"
-			},
+            "GameCenter": {
+                "Latitude": 52.0889063,
+                "Longitude": 5.1217543,
+                "HorizontalAccuracy": "NaN",
+                "VerticalAccuracy": "NaN",
+                "Speed": "NaN",
+                "Course": "NaN",
+                "IsUnknown": false,
+                "Altitude": "NaN"
+            },
 			"ControlEvents": []
 		}
 	],
