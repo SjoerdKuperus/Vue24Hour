@@ -71,10 +71,29 @@ namespace Vue24Hour.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
+        public PlayerItemModel[] Players { get; set; }
 
         public static TeamItemModel MapFrom(Team team)
         {
-            return new TeamItemModel {Id = team.Id, Name = team.Name, Color = team.Color};
+            return new TeamItemModel
+            {
+                Id = team.Id,
+                Name = team.Name,
+                Color = team.Color,
+                Players = team.Players.Select(PlayerItemModel.MapFrom).ToArray()
+            };
+        }
+    }
+
+    public class PlayerItemModel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string AccountName { get; set; }
+
+        public static PlayerItemModel MapFrom(Player player)
+        {
+            return new PlayerItemModel {Id = player.Id, Name = player.Name, AccountName = player.AccountName};
         }
     }
 

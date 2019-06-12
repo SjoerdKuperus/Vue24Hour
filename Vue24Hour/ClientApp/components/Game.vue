@@ -3,29 +3,34 @@
         <h2>{{game.name}} ({{game.startDate}})</h2>
         <div class="horizontalLine"></div>
         <p>
-            <h3>Informatie over deze game:</h3>
             <div class="row">
-                <div class="col-sm-3">Naam:</div><div class="col-sm-9" v-text="game.name"></div>
+                <div class="col-3 label">Naam</div><div class="col-9" v-text="game.name"></div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Datum:</div><div class="col-sm-9" v-text="game.startDate"></div>
+                <div class="col-3 label">Locatie</div><div class="col-9" v-text="game.location"></div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Game status:</div>
-                <div class="col-sm-3" v-text="game.gameState"></div>
-                <div v-if="gameStateStartup" class="col-sm-6"><button v-on:click="activateGame" class="btn btn-primary">Activate game</button></div>
-                <div v-else class="col-sm-6"><button v-on:click="createTestEvents" class="btn btn-primary">Create test events</button></div>
+                <div class="col-3 label">Datum</div><div class="col-9" v-text="game.startDate"></div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Aantal kwadranten:</div><div class="col-sm-9" v-text="game.quadrantCount"></div>
+                <div class="col-3 label">Deelnemers</div><div class="col-9">{{game.activeParticipants}}/{{game.maximumParticipants}}</div>
             </div>
             <div class="row">
-                <div class="col-sm-3">Middenpunt:</div><div class="col-sm-9" v-text="game.gameCenter"></div>
+                <div class="col-3 label">Game status</div><div class="col-9" v-text="game.gameState"></div>
+            </div>
+            <div class="row">
+                <div class="col-3 label">Kwadranten</div><div class="col-9" v-text="game.quadrantCount"></div>
+            </div>
+            <div class="row">
+                <div class="col-3 label">Middenpunt</div><div class="col-9" v-text="game.gameCenter"></div>
             </div>
         </p>
         <p>
-            <h3>Teams</h3>
-            <team-item v-for="(team, teamIndex) in teams" :key="team.id" :item="team"></team-item>
+            <h4>Teams</h4>
+            <div class="team-container">
+                <team-item v-for="(team, teamIndex) in teams" :key="team.id" :item="team" v-bind:gameState="game.gameState" v-bind:maxTeamSize="maxTeamSize"></team-item>
+            </div>
+            <div class="clearfix"></div>
         </p>
         <div class="horizontalLine"></div>
         <p>
@@ -35,6 +40,10 @@
         </p>
         <div class="horizontalLine"></div>
         <p>
+            <div class="row">
+                <div v-if="gameStateStartup" class="col-12"><button v-on:click="activateGame" class="btn btn-primary">Activate game</button></div>
+                <div v-else class="col-12"><button v-on:click="createTestEvents" class="btn btn-primary">Create test events</button></div>
+            </div>
             <div class="row eventHeader">
                 <h3 class="col-lg-2">Events</h3>
                 <div class="col-lg-10 eventControls" v-if="eventItems.length > 0">
@@ -85,6 +94,9 @@
             eventItems() {
                 return this.$store.state.game != null ? this.$store.state.game.controlEvents : [];
             },
+            maxTeamSize() {
+                return Math.ceil((this.game.maximumParticipants / this.teams.length));
+            }
         },
         created() {},
         updated() {},
@@ -218,5 +230,11 @@
     }
     .eventControls {
         padding-top: 20px;
+    }
+    .label{
+        color: #EEE;
+    }
+    .team-container {
+        
     }
 </style>

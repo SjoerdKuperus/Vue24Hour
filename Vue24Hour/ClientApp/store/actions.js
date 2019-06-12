@@ -51,6 +51,7 @@ export const actions = {
     async createGame({ dispatch, commit }, data) {
         await axios.post('/api/game', data)
             .then((res) => {
+                commit('setDashboardMessage', 'Spel aangemaakt!');
                 router.push('/');
             }).catch((error) => {
                 commit('createGameError', error.response.data);
@@ -106,5 +107,13 @@ export const actions = {
             let updatedTeams = response.data;
             commit('loadTeams', updatedTeams);
         }
+    },
+
+    async joinTeam({ dispatch, commit }, data) {
+        await axios.post('/api/game/joinTeam', data)
+            .then((response) => {
+                let game = response.data;
+                commit('loadGame', game);
+            });
     },
 }

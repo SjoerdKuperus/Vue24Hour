@@ -93,5 +93,13 @@ namespace Vue24Hour.Services
                 }
             };
         }
+
+        public void JoinTeam(Guid teamId, string userName, Guid gameId)
+        {
+            var game = _gameRepository.GetGame(gameId);
+            var team = game.Teams.Single(_ => _.Id == teamId);
+            var newPlayer = new Player {Id = Guid.NewGuid(), AccountName = userName, Name = userName};
+            team.Players.Add(newPlayer);
+        }
     }
 }

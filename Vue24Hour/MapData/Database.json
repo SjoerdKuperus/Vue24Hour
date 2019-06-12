@@ -11,7 +11,18 @@
 					"Id": "1dec4dde-8750-4f66-bb9e-9549210d5116",
 					"Name": "Rood",
 					"Color": "red",
-					"Players": []
+                    "Players": [
+                        {
+                            "Id": "96804090-BE2C-4430-AB48-5F1ABD0B2F74",
+                            "Name": "Speler 1",
+                            "AccountName": "Speler1"
+                        },
+                        {
+                            "Id": "4FFA728D-B246-4938-B0EA-9B07DC626340",
+                            "Name": "Speler 2",
+                            "AccountName": "Speler2"
+                        }
+                    ]
 				},
 				{
 					"Id": "46a218e6-1884-4a7b-85af-5a0c6e1b8f8d",

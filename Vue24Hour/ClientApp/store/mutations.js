@@ -12,7 +12,8 @@ export const state = {
     accounts: [],
     games: [],
     game: null,
-    teams: []
+    teams: [],
+    dashboardMessage: ""
 }
 
 export const mutations = {
@@ -53,5 +54,8 @@ export const mutations = {
     },
     loadTeams(state, teams) {
         state.teams = teams || [];
+    },
+    setDashboardMessage(state, message) {
+        state.dashboardMessage = message;
     },
 }

@@ -77,10 +77,25 @@ namespace Vue24Hour.Controllers
             var gameWithEvents = await _gameService.GetGame(new Guid(game.id));
             return Ok(gameWithEvents);
         }
+
+        [HttpPost("joinTeam")]
+        public async Task<IActionResult> JoinTeam([FromBody] JoinGameModel joinGameModel)
+        {
+            _gameService.JoinTeam(new Guid(joinGameModel.id), joinGameModel.userName, new Guid(joinGameModel.gameId));
+            var game = await _gameService.GetGame(new Guid(joinGameModel.gameId));
+            return Ok(game);
+        }
     }
 
     public class ActivateGameModel
     {
         public string id { get; set; }
+    }
+
+    public class JoinGameModel
+    {
+        public string id { get; set; }
+        public string userName { get; set; }
+        public string gameId { get; set; }
     }
 }

@@ -2,6 +2,12 @@
     <div class="dashboard">
         <h2>Welkom {{name}}</h2>
         <div class="horizontalLine"></div>
+        <div class="alert alert-info alert-dismissible fade show" role="alert" v-if="dashboardMessage !== ''">
+            {{dashboardMessage}}
+            <button type="button" class="close" aria-label="Close" @click="closeAlert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <p>
             <div class="gameStatus">Status:</div>
             Je doet op dit moment niet mee aan een spel. Wil je je inschrijven voor het volgende spel?
@@ -25,13 +31,20 @@
         },
         computed: {
             name() {
-                return this.$store.state.userName
+                return this.$store.state.userName;
             },            
             games() {
-                return this.$store.state.games
+                return this.$store.state.games;
             },
+            dashboardMessage() {
+                return this.$store.state.dashboardMessage;
+            }
         },
-        methods: {}
+        methods: {
+            closeAlert() {
+                this.$store.state.dashboardMessage = "";
+            },
+        }
     }
 </script>
 <style>
