@@ -65,6 +65,7 @@
     import GameItem from './GameItem'
     import TeamItem from './TeamItem'
     import EventItem from './EventItem'
+    import shared from './shared'
 
     export default {
         components: { GameItem, TeamItem, EventItem},
@@ -100,15 +101,7 @@
             alreadyInTeam() {
                 var teams = this.$store.state.game.teams;
                 var userName = this.$store.state.userName;
-                var alreadyInTeam = false;
-                teams.forEach(function (team) {
-                    team.players.forEach(function (player) {
-                        if (player.accountName === userName) {
-                            alreadyInTeam = true;
-                        }
-                    });
-                });
-                return alreadyInTeam;
+                return shared.isPlayerInTeams(userName, teams);               
             },
         },
         created() {},

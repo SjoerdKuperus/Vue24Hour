@@ -8,9 +8,10 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <p>
-            <div class="gameStatus">Status:</div>
-            Je doet op dit moment niet mee aan een spel. Wil je je inschrijven voor het volgende spel?
+        <p class="container">
+            <div class="row">
+                <div class="gameStatus col-2">Status:</div><div class="col-10">{{statusMessage}}</div>
+            </div>           
         </p>
         <div class="horizontalLine"></div>
         <router-link to="/startNewGame">
@@ -24,6 +25,8 @@
 
 <script>
     import GameItem from './GameItem'
+    import shared from './shared'
+
     export default {
         components: { GameItem},
         mounted() {
@@ -38,7 +41,28 @@
             },
             dashboardMessage() {
                 return this.$store.state.dashboardMessage;
-            }
+            },
+            myCurrentGame() {
+                var userName = this.$store.state.userName;
+                var myCurrentGame = null;
+                this.games.forEach(function (game) {
+                    if (shared.isPlayerInTeams(userName, game.teams)) {
+                        myCurrentGame = game;
+                    }
+                });
+                return myCurrentGame;
+            },
+            statusMessage() {
+                if (this.myCurrentGame !== null) {
+                    if (this.myCurrentGame.gameState === 'Startup') {
+                        return "Je doet mee aan '" + this.myCurrentGame.name + "', er wordt druk gezocht naar deelnemers.";
+                    }
+                    if (this.myCurrentGame.gameState === 'Running') {
+                        return "Je doet mee aan '" + this.myCurrentGame.name + "'. Trek er op uit en verover de quadranten!";
+                    }
+                }
+                return "Je doet op dit moment niet mee aan een spel. Wil je je inschrijven voor het volgende spel?";
+            },
         },
         methods: {
             closeAlert() {
