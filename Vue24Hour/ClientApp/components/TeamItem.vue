@@ -6,10 +6,10 @@
         </div>
         <div class="card-body">
             <div v-for="player in item.players">{{player.name}}</div>
-            <div v-if="gameState === 'Startup' && !showAreYouSure">
+            <div v-if="gameState === 'Startup' && !showAreYouSure && !alreadyInTeam && !teamIsFull">
                 <button class="btn btn-outline-secondary btn-sm" @click="joinTeam(item.id)">Join team</button>
             </div>
-            <div v-if="showAreYouSure">
+            <div v-if="showAreYouSure && !alreadyInTeam && !teamIsFull">
                 Weet je zeker dat je dit team wil joinen?
                 <button class="btn btn-outline-secondary btn-sm" @click="joinTeam(item.id)">Join team {{item.name}}</button>
             </div>
@@ -24,13 +24,17 @@
                 showAreYouSure: false
             };
         },
-        props: ['item', 'gameState', 'maxTeamSize'],
+        props: ['item', 'gameState', 'maxTeamSize', 'alreadyInTeam'],
+        computed: {
+            teamIsFull() {
+                return this.item.players.length >= this.maxTeamSize;
+            },
+        },
         methods: {
             joinTeam(itemId) {
                 if (this.showAreYouSure) {
                     var username = this.$store.state.userName;
                     var gameId = this.$store.state.game.id;
-                    console.log("username:" + username);
                     this.$store.dispatch('joinTeam', {
                         id: itemId,
                         userName: username,

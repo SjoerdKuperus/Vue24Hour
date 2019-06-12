@@ -28,7 +28,7 @@
         <p>
             <h4>Teams</h4>
             <div class="team-container">
-                <team-item v-for="(team, teamIndex) in teams" :key="team.id" :item="team" v-bind:gameState="game.gameState" v-bind:maxTeamSize="maxTeamSize"></team-item>
+                <team-item v-for="(team, teamIndex) in teams" :key="team.id" :item="team" v-bind:gameState="game.gameState" v-bind:maxTeamSize="maxTeamSize" v-bind:alreadyInTeam="alreadyInTeam"></team-item>
             </div>
             <div class="clearfix"></div>
         </p>
@@ -96,7 +96,20 @@
             },
             maxTeamSize() {
                 return Math.ceil((this.game.maximumParticipants / this.teams.length));
-            }
+            },
+            alreadyInTeam() {
+                var teams = this.$store.state.game.teams;
+                var userName = this.$store.state.userName;
+                var alreadyInTeam = false;
+                teams.forEach(function (team) {
+                    team.players.forEach(function (player) {
+                        if (player.accountName === userName) {
+                            alreadyInTeam = true;
+                        }
+                    });
+                });
+                return alreadyInTeam;
+            },
         },
         created() {},
         updated() {},
