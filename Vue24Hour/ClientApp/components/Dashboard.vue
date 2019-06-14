@@ -23,8 +23,11 @@
             </router-link>
         </template>
         <template v-if="inRunningGame">
-            <div>{{gameTimeMessage}}</div>
-            <div>Team {{currentTeam.name}} heeft {{currentTeam.score}} punten</div>            
+            <div class="countdown-clock">
+                Time left:
+                <div class="countdown-clockTime">{{countDown}}</div>
+            </div>
+            <div class="team-points">Team <span v-bind:style="{'color': currentTeam.color}">{{currentTeam.name}}</span> heeft <span class="team-points-score">{{currentTeam.score}}</span> punten</div>
         </template>
     </div>
 </template>
@@ -82,16 +85,17 @@
                 if (this.myCurrentGame !== null) {
                     return shared.getTeamFromCurrentUser(userName, this.myCurrentGame);
                 }                
-            },
-            gameTimeMessage() {
+            },            
+            countDown() {
                 if (this.myCurrentGame !== null) {
+                    var test = this.dateNow;
                     var startDate = moment(this.myCurrentGame.startDate + " " + this.myCurrentGame.startTime, "DD-MM-YYYY HH:mm");
                     var toNow = moment(startDate).diff(moment(), 'seconds');
                     var duration = moment.duration(toNow, 'seconds').asMilliseconds();
-                    var timeLeft = moment.utc(duration).format("HH:mm:ss")
-                    return "Het is nu: " + this.dateNow + ". Het spel duurt nog: " + timeLeft;                    
+                    var timeLeft = moment.utc(duration).format("HH:mm:ss");
+                    return timeLeft;
                 }
-                return "hh:mm:ss";
+                return "";
             },
         },
         methods: {
@@ -113,5 +117,27 @@
 <style>
     .gameStatus {
         color: white;
+    }
+    .countdown-clock {
+        width: 100%;
+        text-align: center;
+        color: #daf6ff;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 20px;
+    }
+    .countdown-clockTime {
+        font-size: 40px;
+        letter-spacing: 0.05rem;
+        text-shadow: 0 0 20px rgba(10, 175, 230, 1), 0 0 20px rgba(10, 175, 230, 0);
+    }
+    .team-points {
+        font-size: 20px;
+        width: 100%;
+        text-align: center;
+    }
+    .team-points-score {
+        font-size: 30px;
+        color: #daf6ff;
+        text-shadow: 0 0 20px rgba(10, 175, 230, 1), 0 0 20px rgba(10, 175, 230, 0);
     }
 </style>
