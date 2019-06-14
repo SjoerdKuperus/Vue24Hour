@@ -102,6 +102,6 @@
     #installPrompt {
         margin-top: 10px;
         line-height: 30px;
-        //display:none;
+        display:none;
     }
 </style>

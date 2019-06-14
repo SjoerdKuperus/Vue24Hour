@@ -11,15 +11,15 @@
         <p class="container">
             <div class="row">
                 <div class="gameStatus col-2">Status:</div><div class="col-10">{{statusMessage}}</div>
-            </div>           
+            </div>
         </p>
         <div class="horizontalLine"></div>
-        <router-link to="/startNewGame">
-            <button class="btn btn-secondary">Begin nieuw spel</button>
-        </router-link>
         <router-link to="/listGames">
             <button class="btn btn-secondary">Toon spellen</button>
-        </router-link>        
+        </router-link>
+        <router-link to="/startNewGame" class="float-right">
+            <button class="btn btn-secondary">Begin nieuw spel</button>
+        </router-link>
     </div>
 </template>
 

@@ -29,12 +29,12 @@ export default new Router({
     routes: [
         { path: '/', component: Dashboard, beforeEnter: requireAuth },
         { path: '/login', component: Login },
-        { path: '/location', component: Location },
-        { path: '/createAccount', component: CreateAccount },
-        { path: '/listGames', component: ListGames },
         { path: '/listAccounts', component: ListAccounts },
-        { path: '/game/:id', component: Game },
-        { path: '/startNewGame', component: StartNewGame },
+        { path: '/location', component: Location, beforeEnter: requireAuth },
+        { path: '/createAccount', component: CreateAccount, beforeEnter: requireAuth },
+        { path: '/listGames', component: ListGames, beforeEnter: requireAuth },
+        { path: '/game/:id', component: Game, beforeEnter: requireAuth },
+        { path: '/startNewGame', component: StartNewGame, beforeEnter: requireAuth },
         {
             path: '/logout',
             async beforeEnter(to, from, next) {

@@ -1,10 +1,10 @@
 <template>
     <div class="row game" @click="openGame(item.id)">
-        <div class="col-2">{{item.startDate}}</div>
+        <div class="col-3 col-sm-2">{{item.startDate}}</div>
         <div class="col-3">{{item.name}}</div>
-        <div class="col-3">{{item.location}}</div>
-        <div class="col-2">({{item.activeParticipants}}/{{item.maximumParticipants}})</div>
-        <div class="col-2">{{item.gameState}}</div>
+        <div class="col-3 d-none d-sm-block">{{item.location}}</div>
+        <div class="col-3 col-sm-2">({{item.activeParticipants}}/{{item.maximumParticipants}})</div>
+        <div class="col-3 col-sm-2">{{item.gameState}}</div>
     </div>
 </template>
 

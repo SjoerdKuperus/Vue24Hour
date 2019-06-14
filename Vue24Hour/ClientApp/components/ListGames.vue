@@ -4,11 +4,11 @@
         <div class="horizontalLine"></div>
         <div class="game-list container">
             <div class="row game-list-header">
-                <div class="col-2 font-weight-bold">Datum</div>
+                <div class="col-3 col-sm-2 font-weight-bold">Datum</div>
                 <div class="col-3 font-weight-bold">Naam</div>
-                <div class="col-3 font-weight-bold">Locatie</div>
-                <div class="col-2 font-weight-bold">Deelnemers</div>
-                <div class="col-2 font-weight-bold">Status</div>
+                <div class="col-3 font-weight-bold d-none d-sm-block">Locatie</div>
+                <div class="col-3 col-sm-2 font-weight-bold">Deelnemers</div>
+                <div class="col-3 col-sm-2 font-weight-bold">Status</div>
             </div>
             <game-item v-for="(game, index) in games" :key="index" :item="game"></game-item>
         </div>
