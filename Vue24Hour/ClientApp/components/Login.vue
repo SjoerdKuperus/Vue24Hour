@@ -12,6 +12,12 @@
         <router-link to="/CreateAccount">
             <button id="myButton" class="btn btn-secondary">Aanmelden</button>
         </router-link>
+        <div id="installPrompt" class="alert alert-info" role="alert">
+            <span>
+                Zet de 24uur spel app op je homescherm!
+            </span>
+            <button id="installPromptAddButton" class="btn btn-sm btn-outline-info float-right">Instaleren</button>
+        </div>        
         <br />
         <div class="horizontalLine"></div>
         <br />
@@ -92,5 +98,10 @@
     input {
         display: block;
         margin-bottom: 10px;
+    }
+    #installPrompt {
+        margin-top: 10px;
+        line-height: 30px;
+        display:none;
     }
 </style>
