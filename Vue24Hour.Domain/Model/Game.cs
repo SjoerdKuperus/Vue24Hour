@@ -11,6 +11,7 @@ namespace Vue24Hour.Domain.Model
         public string Location { get; set; }
         public int MaximumParticipants { get; set; }
         public DateTime StartDate { get; set; }
+        public DateTime StartTime { get; set; }
         public ICollection<Team> Teams { get; set; }
         public GameState GameState { get; set; }
         public string Manager { get; set; }

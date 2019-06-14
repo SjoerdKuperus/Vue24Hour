@@ -17,6 +17,10 @@
                 <input id="startDate" type="date" v-model="startDate" class="form-control">
             </div>
             <div class="form-group">
+                <label for="startTime">Start tijd</label>
+                <input id="startTime" type="time" v-model="startTime" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="name">Maximaal aantal deelnemers</label>
                 <input id="maximumParticipants" type="number" v-model="maximumParticipants" class="form-control">
             </div>
@@ -48,6 +52,7 @@
                 location: '',
                 maximumParticipants: '',
                 startDate: '',
+                startTime: '09:00',
                 selectedTeams: [],
                 error: false,
                 formError: "",
@@ -80,6 +85,7 @@
                         location: this.location,
                         maximumParticipants: this.maximumParticipants,
                         startDate: this.startDate,
+                        startTime: this.startTime,
                         teams: this.selectedTeams,
                         manager: this.$store.state.userName
                     })

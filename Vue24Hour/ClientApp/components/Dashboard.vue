@@ -14,23 +14,34 @@
             </div>
         </p>
         <div class="horizontalLine"></div>
-        <router-link to="/listGames">
-            <button class="btn btn-secondary">Toon spellen</button>
-        </router-link>
-        <router-link to="/startNewGame" class="float-right">
-            <button class="btn btn-secondary">Begin nieuw spel</button>
-        </router-link>
+        <template v-if="!inRunningGame">
+            <router-link to="/listGames">
+                <button class="btn btn-secondary">Toon spellen</button>
+            </router-link>
+            <router-link to="/startNewGame" class="float-right">
+                <button class="btn btn-secondary">Begin nieuw spel</button>
+            </router-link>
+        </template>
+        <template v-if="inRunningGame">
+            <div>{{gameTimeMessage}}</div>
+            <div>Team {{currentTeam.name}} heeft {{currentTeam.score}} punten</div>            
+        </template>
     </div>
 </template>
 
 <script>
     import GameItem from './GameItem'
     import shared from './shared'
+    import moment from 'moment';
 
-    export default {
-        components: { GameItem},
+    export default {        
+        data() {
+            return { dateNow: '', }
+        },
+        components: { GameItem },
         mounted() {
             this.$store.dispatch('getAllGames');
+            this.interval = setInterval(this.setGameTime, 1000)
         },
         computed: {
             name() {
@@ -63,11 +74,39 @@
                 }
                 return "Je doet op dit moment niet mee aan een spel. Wil je je inschrijven voor het volgende spel?";
             },
+            inRunningGame() {
+                return this.myCurrentGame !== null && this.myCurrentGame.gameState === 'Running';
+            },
+            currentTeam() {
+                var userName = this.$store.state.userName;
+                if (this.myCurrentGame !== null) {
+                    return shared.getTeamFromCurrentUser(userName, this.myCurrentGame);
+                }                
+            },
+            gameTimeMessage() {
+                if (this.myCurrentGame !== null) {
+                    var startDate = moment(this.myCurrentGame.startDate + " " + this.myCurrentGame.startTime, "DD-MM-YYYY HH:mm");
+                    var toNow = moment(startDate).diff(moment(), 'seconds');
+                    var duration = moment.duration(toNow, 'seconds').asMilliseconds();
+                    var timeLeft = moment.utc(duration).format("HH:mm:ss")
+                    return "Het is nu: " + this.dateNow + ". Het spel duurt nog: " + timeLeft;                    
+                }
+                return "hh:mm:ss";
+            },
         },
         methods: {
             closeAlert() {
                 this.$store.state.dashboardMessage = "";
             },
+            setGameTime() {
+                if (this.myCurrentGame !== null) {
+                    var today = new Date();
+                    this.dateNow = today.toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' });
+                }
+            },
+        },
+        beforeDestroy() {
+            clearInterval(this.interval)
         }
     }
 </script>

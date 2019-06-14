@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vue24Hour.Domain.Model;
 
@@ -10,6 +11,7 @@ namespace Vue24Hour.Models
         public string Name { get; set; }
         public string Location { get; set; }
         public string StartDate { get; set; }
+        public string StartTime { get; set; }
         public int ActiveParticipants { get; set; }
         public int MaximumParticipants { get; set; }
         public string GameState { get; set; }
@@ -29,6 +31,7 @@ namespace Vue24Hour.Models
                 Name = game.Name,
                 Location = game.Location,
                 StartDate = game.StartDate.ToString("dd-MM-yyyy"),
+                StartTime = game.StartTime.ToString("hh:mm"),
                 ActiveParticipants = game.Teams.Sum(team => team.Players.Count),
                 MaximumParticipants = game.MaximumParticipants,
                 GameState = game.GameState.ToString(),
@@ -37,7 +40,7 @@ namespace Vue24Hour.Models
                 GameCenter = "" + game.GameCenter.Longitude + ", " + game.GameCenter.Latitude,
                 CenterLocationCoords = new[] {game.GameCenter.Longitude, game.GameCenter.Latitude},
                 Quadrants = game.Quadrants.Select(QuadrantItemModel.MapFrom).ToArray(),
-                Teams = game.Teams.Select(TeamItemModel.MapFrom).ToArray(),
+                Teams = game.Teams.Select(_ => TeamItemModel.MapFrom(_ , game.ControlEvents.ToList())).ToArray(),
                 ControlEvents = game.ControlEvents.Select(ControlEventModel.MapFrom).ToArray()
             };
         }
@@ -74,6 +77,7 @@ namespace Vue24Hour.Models
         public string Name { get; set; }
         public string Color { get; set; }
         public PlayerItemModel[] Players { get; set; }
+        public int Score { get; set; }
 
         public static TeamItemModel MapFrom(Team team)
         {
@@ -82,8 +86,40 @@ namespace Vue24Hour.Models
                 Id = team.Id,
                 Name = team.Name,
                 Color = team.Color,
-                Players = team.Players.Select(PlayerItemModel.MapFrom).ToArray()
+                Players = team.Players.Select(PlayerItemModel.MapFrom).ToArray(),
+                Score = 0
             };
+        }
+
+        public static TeamItemModel MapFrom(Team team, List<ControlEvent> controlEvents)
+        {
+            var teamScore = CalculateTeamScore(team.Id, controlEvents);
+            return new TeamItemModel
+            {
+                Id = team.Id,
+                Name = team.Name,
+                Color = team.Color,
+                Players = team.Players.Select(PlayerItemModel.MapFrom).ToArray(),
+                Score = teamScore
+            };
+        }
+
+        private static int CalculateTeamScore(Guid teamId, List<ControlEvent> controlEvents)
+        {
+            var totalScore = 0;
+            foreach (var controlEvent in controlEvents)
+            {
+                if (controlEvent.Team.Id == teamId)
+                {
+                    if (controlEvent.EndDateTime != DateTime.MinValue)
+                    {
+                        var difference = controlEvent.EndDateTime - controlEvent.StartDateTime;
+                        totalScore += difference.Minutes;
+                    }
+                }
+            }
+
+            return totalScore;
         }
     }
 

@@ -13,6 +13,9 @@
                 <div class="col-3 label">Datum</div><div class="col-9" v-text="game.startDate"></div>
             </div>
             <div class="row">
+                <div class="col-3 label">Start tijd</div><div class="col-9" v-text="game.startTime"></div>
+            </div>
+            <div class="row">
                 <div class="col-3 label">Deelnemers</div><div class="col-9">{{game.activeParticipants}}/{{game.maximumParticipants}}</div>
             </div>
             <div class="row">

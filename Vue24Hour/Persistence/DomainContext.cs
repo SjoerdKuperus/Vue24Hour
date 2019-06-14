@@ -37,6 +37,7 @@ namespace Vue24Hour.Persistence
                 Location = createGameRequest.Location,
                 MaximumParticipants = createGameRequest.MaximumParticipants,
                 StartDate = createGameRequest.StartDate,
+                StartTime = createGameRequest.StartTime,
                 Teams = createGameRequest.SelectedTeams,
                 Manager = createGameRequest.Manager,
                 GameState = GameState.Startup,
@@ -50,7 +51,7 @@ namespace Vue24Hour.Persistence
         public void FillFakeQuadrantData(Game game)
         {
             //Temp data.
-            game.GameCenter = new GeoCoordinate(52.0907336, 5.1217543); //Dom van utrecht //52.0907336,5.1217543
+            game.GameCenter = new GeoCoordinate(52.0889063, 5.1217543); //Dom van utrecht //52.0907336,5.1217543
 
             // Read of the features from geoJson file.
 
