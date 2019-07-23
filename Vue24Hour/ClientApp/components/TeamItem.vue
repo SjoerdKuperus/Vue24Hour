@@ -10,7 +10,7 @@
                 <button class="btn btn-outline-secondary btn-sm" @click="joinTeam(item.id)">Join team</button>
             </div>
             <div v-if="showAreYouSure && !alreadyInTeam && !teamIsFull">
-                Weet je zeker dat je dit team wil joinen?
+                Weet je zeker dat je in dit team wil?
                 <button class="btn btn-outline-secondary btn-sm" @click="joinTeam(item.id)">Join team {{item.name}}</button>
             </div>
         </div>

@@ -24,7 +24,6 @@
         </template>
         <template v-if="inRunningGame">
             <div class="countdown-clock">
-                Time left:
                 <div class="countdown-clockTime">{{countDown}}</div>
             </div>
             <div class="team-points">Team <span v-bind:style="{'color': currentTeam.color}">{{currentTeam.name}}</span> heeft <span class="team-points-score">{{currentTeam.score}}</span> punten</div>

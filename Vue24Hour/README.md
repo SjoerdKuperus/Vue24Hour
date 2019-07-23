@@ -122,4 +122,9 @@ https://www.html5rocks.com/en/tutorials/workers/basics/
 Doelen:
 * Improve design
 
+(23 juli)
+* Update all npm packages to latest version and fix breaking changes.
+
+
+
 
