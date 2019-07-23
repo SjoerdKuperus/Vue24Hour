@@ -1,12 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env) => {
-    const extractCSS = new ExtractTextPlugin('vendor.css');
     const isDevBuild = !(env && env.prod);
     return [{
+        mode: isDevBuild ? "development" : "production",
         stats: { modules: false },
         resolve: {
             extensions: ['.js']
@@ -15,10 +15,16 @@ module.exports = (env) => {
             rules: [
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' },
                 {
-                    test: /\.(s*)css(\?|$)/, use: extractCSS.extract({
-                        fallback: 'style-loader',
-                        use: ['css-loader', 'sass-loader'],
-                    })
+                    test: /\.(s*)css(\?|$)/, use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                hmr: process.env.NODE_ENV === 'development',
+                            },
+                        },
+                        'css-loader',
+                        'sass-loader'
+                    ]
                 }
             ]
         },
@@ -32,7 +38,13 @@ module.exports = (env) => {
             library: '[name]_[hash]',
         },
         plugins: [
-            extractCSS,
+            new MiniCssExtractPlugin({
+                // Options similar to the same options in webpackOptions.output
+                // all options are optional
+                filename: '[name].css',
+                chunkFilename: '[id].css',
+                ignoreOrder: false, // Enable to remove warnings about conflicting order
+            }),
             // Compress extracted CSS.
             new OptimizeCSSPlugin({
                 cssProcessorOptions: {

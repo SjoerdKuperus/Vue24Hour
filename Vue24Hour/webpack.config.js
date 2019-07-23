@@ -1,11 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const bundleOutputDir = './wwwroot/dist';
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
     return [{
+        mode: isDevBuild ? "development" : "production",
         stats: { modules: false },
         entry: { 'main': './ClientApp/boot-app.js' },
         resolve: {
@@ -27,7 +29,17 @@ module.exports = (env) => {
             rules: [
                 { test: /\.vue$/, include: /ClientApp/, use: 'vue-loader' },
                 { test: /\.js$/, include: /ClientApp/, use: 'babel-loader' },
-                { test: /\.css$/, use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader' }) },
+                {
+                    test: /\.css$/, use: isDevBuild ? ['style-loader', 'css-loader'] : [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                hmr: process.env.NODE_ENV === 'development',
+                            },
+                        },
+                        'css-loader',
+                        'sass-loader'
+                    ] }, 
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
         },
@@ -35,7 +47,8 @@ module.exports = (env) => {
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require('./wwwroot/dist/vendor-manifest.json')
-            })
+            }),
+            new VueLoaderPlugin()
         ].concat(isDevBuild ? [
             // Plugins that apply in development builds only
             new webpack.SourceMapDevToolPlugin({
@@ -45,7 +58,13 @@ module.exports = (env) => {
         ] : [
                 // Plugins that apply in production builds only
                 new webpack.optimize.UglifyJsPlugin(),
-                new ExtractTextPlugin('site.css')
+                new MiniCssExtractPlugin({
+                    // Options similar to the same options in webpackOptions.output
+                    // all options are optional
+                    filename: '[name].css',
+                    chunkFilename: '[id].css',
+                    ignoreOrder: false, // Enable to remove warnings about conflicting order
+                })
             ])
     }];
 };
