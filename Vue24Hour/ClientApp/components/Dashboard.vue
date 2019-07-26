@@ -27,6 +27,12 @@
                 <div class="countdown-clockTime">{{countDown}}</div>
             </div>
             <div class="team-points">Team <span v-bind:style="{'color': currentTeam.color}">{{currentTeam.name}}</span> heeft <span class="team-points-score">{{currentTeam.score}}</span> punten</div>
+            <p>
+                <h3>Locatie</h3>
+                <div>{{locationName}}</div>
+                <!--The div in which the map will be created-->
+                <div id="map-container"></div>
+            </p>
         </template>
     </div>
 </template>
@@ -42,8 +48,8 @@
         },
         components: { GameItem },
         mounted() {
-            this.$store.dispatch('getAllGames');
-            this.interval = setInterval(this.setGameTime, 1000)
+            this.$store.dispatch('getAllGames').then(this.showMap).then(this.getLocation);
+            this.interval = setInterval(this.setGameTime, 1000);
         },
         computed: {
             name() {
@@ -96,6 +102,9 @@
                 }
                 return "";
             },
+            locationName() {
+                return this.$store.state.locationName;
+            },
         },
         methods: {
             closeAlert() {
@@ -106,6 +115,180 @@
                     var today = new Date();
                     this.dateNow = today.toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' });
                 }
+            },
+            showMap() {
+                if (this.myCurrentGame !== null) {
+                    var center = this.myCurrentGame.centerLocationCoords;
+                    var map = new mapboxgl.Map({
+                        container: 'map-container',
+                        style: 'https://geodata.nationaalgeoregister.nl/beta/topotiles-viewer/styles/achtergrond.json',
+                        zoom: 13.2,
+                        center: center,
+                        interactive: false,
+                    });
+                    // Add zoom and rotation controls to the map.
+                    //map.addControl(new mapboxgl.NavigationControl(), "top-left");
+                    var componentContext = this;
+                    map.on('load', function () {
+                        componentContext.addMapSource(this);
+                    });
+                    componentContext.mapboxMap = map;
+                }
+            },
+            addMapSource(map) {
+                var features = this.createFeatureData();
+                var gridDataJson = this.getGridDataJson(features);
+                //Source with the feature data in GeoJson format.
+                map.addSource("gridData", gridDataJson);
+                //Draw all the polygons with an color based on the color property of the feature.
+                map.addLayer({
+                    "id": "TestPolyGons",
+                    "type": "fill",
+                    "source": "gridData",
+                    "paint": {
+                        'fill-color': ['get', 'color'],
+                        "fill-opacity": 0.4,
+                        "fill-outline-color": "#333333"
+                    },
+                    "filter": ["==", "$type", "Polygon"]
+                });
+
+                //TEMP does not work yet
+                //map.addLayer({
+                //    "id": "points",
+                //    "type": "symbol",
+                //    "source": {
+                //        "type": "geojson",
+                //        "data": {
+                //            "type": "FeatureCollection",
+                //            "features": [{
+                //                "type": "Feature",
+                //                "geometry": {
+                //                    "type": "Point",
+                //                    "coordinates": [this.$store.state.locationCoords.longtitude, this.$store.state.locationCoords.latitude]
+                //                },
+                //                "properties": {
+                //                    "icon": {
+                //                        "iconUrl": 'https://www.mapbox.com/mapbox.js/assets/images/astronaut2.png',
+                //                        "iconSize": [50, 50], // size of the icon
+                //                        "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                //                        "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                //                        "className": 'dot'
+                //                    }
+                //                }
+                //            }]
+                //        }
+                //    }
+                //});
+
+                //var geojson = [
+                //    {
+                //        type: 'Feature',
+                //        geometry: {
+                //            type: 'Point',
+                //            coordinates: [this.$store.state.locationCoords.longtitude, this.$store.state.locationCoords.latitude]
+                //        }
+                //    }                    
+                //];
+
+                //var mapGeo = L.mapbox.map('map-container')
+                //    //.setView([37.8, -96], 4)
+                //    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+                //var mapGeo = map.addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+                //var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(mapGeo);
+            },
+            updateMapSource() {
+                if (this.mapboxMap != undefined && this.mapboxMap != null) {
+                    var features = this.createFeatureData();
+                    var newData = {
+                        "type": "FeatureCollection",
+                        "features": features
+                    };
+                    var test = this.mapboxMap.getSource("gridData");
+                    test.setData(newData);
+                }
+            },
+            createFeatureData() {
+                var features = [];
+                if (this.myCurrentGame !== null) {
+                    var colors = ["#FF4747", "#FF9A47", "#35BDBD", "#3EDE3E", "#35BD79"];
+                    var colorCount = 0;
+                    for (var i = 0; i < this.myCurrentGame.quadrants.length; i++) {
+                        var quadrant = this.myCurrentGame.quadrants[i];
+                        var polygonColor = "#000000";
+
+                        if (this.eventItems != null && this.eventItems.length > 0) {
+                            var currentControlEvent = this.eventItems[this.eventCounter];
+                            var quadrantId = currentControlEvent.quadrantId;
+                            var teamColor = currentControlEvent.teamColor;
+
+                            if (quadrantId == quadrant.id) {
+                                polygonColor = teamColor;
+                            }
+                        }
+
+                        var newFeature = {
+                            type: "Feature",
+                            properties: {
+                                "color": polygonColor
+                            },
+                            geometry: {
+                                type: "Polygon",
+                                coordinates: [this.getPolygon(quadrant)]
+                            }
+                        };
+                        features.push(newFeature);
+                        colorCount++;
+                        if (colorCount == 5) {
+                            colorCount = 0;
+                        }
+                    }
+
+                    //Add current location point.
+                    var newFeature = {
+                        type: "Feature",
+                        properties: {
+                            "color": polygonColor
+                        },
+                        geometry: {
+                            type: "Point",
+                            coordinates: [this.$store.state.locationCoords]
+                        }
+                    };
+                    features.push(newFeature);
+                }
+                return features;
+            },
+            getGridDataJson(features) {
+                return {
+                    "type": "geojson",
+                    "data": {
+                        "type": "FeatureCollection",
+                        "features": features
+                    }
+                };
+            },
+            getPolygon(quadrant) {
+                var result = [];
+                if (quadrant !== null && quadrant !== undefined) {
+                    for (var i = 0; i < quadrant.border.length; i++) {
+                        var longtitude = quadrant.border[i].borderPoint[0];
+                        var latitude = quadrant.border[i].borderPoint[1];
+                        result.push([longtitude, latitude]);
+                    }
+                }
+                return result;
+            },
+            getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(this.savePosition);
+
+                } else {
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            },
+            savePosition(position) {
+                this.$store.dispatch('setPostion', position);
             },
         },
         beforeDestroy() {
