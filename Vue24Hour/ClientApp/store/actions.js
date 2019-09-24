@@ -20,6 +20,7 @@ export const actions = {
     },
 
     async login({ dispatch, commit }, data) {
+        commit('loginError', '');
         await axios.post('/api/login', data)
             .then((res) => {
                 commit('loggedIn', res.data);

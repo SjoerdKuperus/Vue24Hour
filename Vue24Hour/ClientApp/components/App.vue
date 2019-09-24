@@ -55,14 +55,15 @@
 </script>
 
 <style>
+    :root {
+        --main-background-color: #F1F1F1;
+    }
     html, body {
         margin: 0;
         padding: 0;
     }
-    body {
-        background: #00b09b; /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #96c93d, #00b09b); /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #96c93d, #00b09b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    body {       
+        background-color: var(--main-background-color);
     }
     ul {
         padding: 0;
