@@ -46,6 +46,13 @@
         data() {
             return { dateNow: '', }
         },
+        watch: {
+            countDown(newValue) {
+                //When the time changes. Set the location again.
+                this.getLocation();
+                this.updateMapPointerSource();
+            }
+        },
         components: { GameItem },
         mounted() {
             this.$store.dispatch('getAllGames').then(this.showMap).then(this.getLocation);
@@ -105,6 +112,9 @@
             locationName() {
                 return this.$store.state.locationName;
             },
+            currentLocation() {
+                return [this.$store.state.locationCoords.longtitude, this.$store.state.locationCoords.latitude];
+            }
         },
         methods: {
             closeAlert() {
@@ -125,12 +135,13 @@
                         zoom: 13.2,
                         center: center,
                         interactive: false,
-                    });
+                    });                   
+
                     // Add zoom and rotation controls to the map.
                     //map.addControl(new mapboxgl.NavigationControl(), "top-left");
                     var componentContext = this;
                     map.on('load', function () {
-                        componentContext.addMapSource(this);
+                        componentContext.addMapSource(this); 
                     });
                     componentContext.mapboxMap = map;
                 }
@@ -153,49 +164,34 @@
                     "filter": ["==", "$type", "Polygon"]
                 });
 
-                //TEMP does not work yet
-                //map.addLayer({
-                //    "id": "points",
-                //    "type": "symbol",
-                //    "source": {
-                //        "type": "geojson",
-                //        "data": {
-                //            "type": "FeatureCollection",
-                //            "features": [{
-                //                "type": "Feature",
-                //                "geometry": {
-                //                    "type": "Point",
-                //                    "coordinates": [this.$store.state.locationCoords.longtitude, this.$store.state.locationCoords.latitude]
-                //                },
-                //                "properties": {
-                //                    "icon": {
-                //                        "iconUrl": 'https://www.mapbox.com/mapbox.js/assets/images/astronaut2.png',
-                //                        "iconSize": [50, 50], // size of the icon
-                //                        "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-                //                        "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                //                        "className": 'dot'
-                //                    }
-                //                }
-                //            }]
-                //        }
-                //    }
-                //});
-
-                //var geojson = [
-                //    {
-                //        type: 'Feature',
-                //        geometry: {
-                //            type: 'Point',
-                //            coordinates: [this.$store.state.locationCoords.longtitude, this.$store.state.locationCoords.latitude]
-                //        }
-                //    }                    
-                //];
-
-                //var mapGeo = L.mapbox.map('map-container')
-                //    //.setView([37.8, -96], 4)
-                //    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-                //var mapGeo = map.addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-                //var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(mapGeo);
+                var center = this.myCurrentGame.centerLocationCoords;
+                map.addSource("centerPoint", {
+                    "type": "geojson",
+                    "data": {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": center
+                            }
+                        }]
+                    }
+                });
+                map.loadImage('images/icon-pointer-test.png', function (error, image) {
+                    if (error) throw error;
+                    map.addImage('pointer', image);
+                    map.addLayer({
+                        "id": "centerPointLayer",
+                        "type": "symbol",
+                        "source": "centerPoint",
+                        "layout": {
+                            "icon-image": "pointer",
+                            "icon-size": 1,
+                            "icon-offset": [0, -19], //Image is 37px height.
+                        }
+                    });
+                });
             },
             updateMapSource() {
                 if (this.mapboxMap != undefined && this.mapboxMap != null) {
@@ -206,6 +202,25 @@
                     };
                     var test = this.mapboxMap.getSource("gridData");
                     test.setData(newData);
+                }
+            },
+            updateMapPointerSource() {
+                if (this.mapboxMap != undefined && this.mapboxMap != null) {
+                    //Update location pointer
+                    var newCenterPointSource = {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": this.currentLocation
+                            }
+                        }]
+                    };
+                    var centerPointSource = this.mapboxMap.getSource("centerPoint");
+                    if (centerPointSource !== undefined) {
+                        centerPointSource.setData(newCenterPointSource);
+                    }
                 }
             },
             createFeatureData() {

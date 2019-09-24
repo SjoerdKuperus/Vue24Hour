@@ -75,6 +75,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
     }
     .app-view {
         background: #272B30;
