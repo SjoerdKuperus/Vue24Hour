@@ -34,9 +34,9 @@ namespace Vue24Hour.Services
 
         private void DoWork(object state)
         {
-            //_logger.LogInformation("Timed Background Service is working.");
+            _logger.LogInformation("Timed Background Service is working.");
             var allRunningGames = _gameRepository.GetAllGames().Where(g => g.GameState == GameState.Running);
-            //_logger.LogInformation("There are " + allRunningGames.Count() + " running games.");
+            _logger.LogInformation("There are " + allRunningGames.Count() + " running games.");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

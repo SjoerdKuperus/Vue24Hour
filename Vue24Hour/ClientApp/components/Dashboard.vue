@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard">
-        <h2>Welkom {{name}}</h2>
+        <h2>Welkom terug {{name}}</h2>
         <div class="horizontalLine"></div>
         <div class="alert alert-info alert-dismissible fade show" role="alert" v-if="dashboardMessage !== ''">
             {{dashboardMessage}}

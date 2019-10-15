@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <UserSecretsId>55b9971f-addf-4524-bc24-b0b1ec3465d3</UserSecretsId>
+        <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,6 +28,45 @@
     <ItemGroup>
         <Content Update="MapData\Database.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\dist\main.js">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\dist\vendor-manifest.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\dist\vendor.css">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\dist\vendor.js">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\images\icon-pointer-test.pdn">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\images\icon-pointer-test.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\images\icon-pointer.svg">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\images\icons-192.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\images\icons-512.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\images\MoonLogo192.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\images\MoonLogo512.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\manifest.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\sw.js">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 

@@ -22,8 +22,6 @@ namespace Vue24Hour
             services.AddSingleton<IGameRepository, DomainContext>();
             services.AddSingleton<ITeamRepository, DomainContext>();
             services.AddSingleton<IAccountRepository, DomainContext>();
-            // TimeHostedService
-            services.AddHostedService<TimedHostedService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
