@@ -62,7 +62,7 @@ namespace Vue24Hour.Controllers
                 return BadRequest("Er moet een beheerder van de game zijn.");
             }
 
-            _gameService.CreateGame(createGameRequest);
+            await _gameService.CreateGame(createGameRequest);
             return Ok();
         }
 

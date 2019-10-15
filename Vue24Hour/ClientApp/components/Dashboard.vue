@@ -49,8 +49,9 @@
         watch: {
             countDown(newValue) {
                 //When the time changes. Set the location again.
-                this.getLocation();
-                this.updateMapPointerSource();
+                //TODO: for now leave off.
+                //this.getLocation();
+                //this.updateMapPointerSource();
             }
         },
         components: { GameItem },

@@ -10,7 +10,7 @@ namespace Vue24Hour.Services
     {
         Task<IEnumerable<GameItemModel>> GetItems();
         Task<GameItemModel> GetGame(Guid id);
-        void CreateGame(CreateGameRequest createGameRequest);
+        Task CreateGame(CreateGameRequest createGameRequest);
         void ActivateGame(Guid id);
         Task<IEnumerable<TeamItemModel>> GetTeams();
         void CreateTestEvents(Guid id);

@@ -32,11 +32,12 @@ namespace Vue24Hour.Services
             return Task.FromResult(game);
         }
 
-        public void CreateGame(CreateGameRequest createGameRequest)
+        public Task CreateGame(CreateGameRequest createGameRequest)
         {
             createGameRequest.SelectedTeams =
                 createGameRequest.Teams.Select(_ => _teamRepository.GetTeam(new Guid(_))).ToArray();
             _gameRepository.CreateGame(createGameRequest);
+            return Task.CompletedTask;
         }
 
         public void ActivateGame(Guid id)

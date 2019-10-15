@@ -1,35 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>55b9971f-addf-4524-bc24-b0b1ec3465d3</UserSecretsId>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <UserSecretsId>55b9971f-addf-4524-bc24-b0b1ec3465d3</UserSecretsId>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="MapData\" />
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="GeoCoordinate.NetCore" Version="1.0.0.1" />
-    <PackageReference Include="GeoJSON" Version="1.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="MapData\" />
+        <Folder Include="wwwroot\images\" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Vue24Hour.Domain\Vue24Hour.Domain.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="GeoCoordinate.NetCore" Version="1.0.0.1" />
+        <PackageReference Include="GeoJSON" Version="2.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.0.0" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="MapData\Database.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Vue24Hour.Domain\Vue24Hour.Domain.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="MapData\TestDataV2.geojson">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Update="MapData\Database.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="MapData\TestDataV2.geojson">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>
