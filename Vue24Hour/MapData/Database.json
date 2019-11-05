@@ -42,9 +42,9 @@
                     "Color": "yellow",
                     "Players": [
                         {
-                            "Id": "6CB55DF3-14E0-4E9B-A3B6-6F99BD3EF284",
-                            "Name": "Speler 5",
-                            "AccountName": "Speler5"
+                            "Id": "6E494270-6763-4D6A-95EE-652B0524A755",
+                            "Name": "Joost Speler",
+                            "AccountName": "Joost Speler"
                         },
                         {
                             "Id": "8EA4B437-1AAF-4BDC-9E02-19D31F7C782E",
@@ -69,9 +69,9 @@
                     "Color": "blue",
                     "Players": [
                         {
-                            "Id": "7655FF44-2D0F-4624-96FC-C90280A67459",
-                            "Name": "Speler 9",
-                            "AccountName": "Speler9"
+                            "Id": "B3517A68-9DCC-4153-B809-F779F3BE066E",
+                            "Name": "Evert Speler",
+                            "AccountName": "Evert Speler"
                         },
                         {
                             "Id": "04B6CC3D-899B-4900-A918-1D32F7732E06",
@@ -2063,6 +2063,18 @@
             "Id": "ABF934D0-C269-4CAA-98F3-3EFBC27AB283",
             "Name": "Sjoerd Speler",
             "Phone": "06123",
+            "Password": "Tester"
+        },
+        {
+            "Id": "6E494270-6763-4D6A-95EE-652B0524A755",
+            "Name": "Joost Speler",
+            "Phone": "06456",
+            "Password": "Tester"
+        },
+        {
+            "Id": "B3517A68-9DCC-4153-B809-F779F3BE066E",
+            "Name": "Evert Speler",
+            "Phone": "06789",
             "Password": "Tester"
         }
     ]

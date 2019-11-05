@@ -25,5 +25,16 @@ namespace Vue24Hour.Domain.Model
             ControlEvents = new HashSet<ControlEvent>();
             Teams = new HashSet<Team>();
         }
+
+        public DateTime EndDateTime
+        {
+            get
+            {
+                var exactStartTime = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour,
+                    StartTime.Minute, StartTime.Second);
+                var endDateTime = exactStartTime.AddHours(24); //TODO add game duration 
+                return endDateTime;
+            }
+        }
     }
 }

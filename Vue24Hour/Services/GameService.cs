@@ -109,22 +109,49 @@ namespace Vue24Hour.Services
             var game = _gameRepository.GetGame(gameId);
             var teamOfPlayer = GetTeamFromUser(username, game);
             var now = DateTime.Now;
-            var exactStartTime = new DateTime(game.StartDate.Year, game.StartDate.Month, game.StartDate.Day,
-                game.StartTime.Hour, game.StartTime.Minute, game.StartTime.Second);
-            var endDateTime = exactStartTime.AddHours(24); //TODO add game duration
+
             var doubleLatitude = double.Parse(latitude);
             var doubleLongtitude = double.Parse(longtitude);
             var (claimedQuadant, claimedDist) = GetQuadrantFromPosition(doubleLatitude, doubleLongtitude, game.Quadrants);
 
-            var claimEvent = new ControlEvent
+            //Check if there is a current claim on the quadrant.
+            var openClaim = game.ControlEvents.SingleOrDefault(e => e.Quadrant == claimedQuadant && e.EndDateTime == game.EndDateTime);
+            if (openClaim != null)
             {
-                Id = Guid.NewGuid(),
-                StartDateTime = now,
-                EndDateTime = endDateTime,
-                Quadrant = claimedQuadant,
-                Team = teamOfPlayer
-            };
-            game.ControlEvents.Add(claimEvent);
+                if (openClaim.Team == teamOfPlayer)
+                {
+                    //Current team already has an open claim on this quadrant. Do not create a new claimEvent.
+                }
+                else
+                {
+                    //Close the claim on the current quadrant from the team.
+                    openClaim.EndDateTime = now;
+                    //Add the new claim
+                    var claimEvent = new ControlEvent
+                    {
+                        Id = Guid.NewGuid(),
+                        StartDateTime = now,
+                        EndDateTime = game.EndDateTime,
+                        Quadrant = claimedQuadant,
+                        Team = teamOfPlayer
+                    };
+                    game.ControlEvents.Add(claimEvent);
+                }
+            }
+            else
+            {
+                //No existing claim so add it.
+                var claimEvent = new ControlEvent
+                {
+                    Id = Guid.NewGuid(),
+                    StartDateTime = now,
+                    EndDateTime = game.EndDateTime,
+                    Quadrant = claimedQuadant,
+                    Team = teamOfPlayer
+                };
+                game.ControlEvents.Add(claimEvent);
+            }
+          
         }
 
         /// <summary>

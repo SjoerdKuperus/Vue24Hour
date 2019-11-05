@@ -40,7 +40,7 @@ namespace Vue24Hour.Models
                 GameCenter = "" + game.GameCenter.Longitude + ", " + game.GameCenter.Latitude,
                 CenterLocationCoords = new[] {game.GameCenter.Longitude, game.GameCenter.Latitude},
                 Quadrants = game.Quadrants.Select(QuadrantItemModel.MapFrom).ToArray(),
-                Teams = game.Teams.Select(_ => TeamItemModel.MapFrom(_ , game.ControlEvents.ToList())).ToArray(),
+                Teams = game.Teams.Select(_ => TeamItemModel.MapFrom(_ , game)).ToArray(),
                 ControlEvents = game.ControlEvents.Select(ControlEventModel.MapFrom).ToArray()
             };
         }
@@ -91,9 +91,9 @@ namespace Vue24Hour.Models
             };
         }
 
-        public static TeamItemModel MapFrom(Team team, List<ControlEvent> controlEvents)
+        public static TeamItemModel MapFrom(Team team, Game game)
         {
-            var teamScore = CalculateTeamScore(team.Id, controlEvents);
+            var teamScore = CalculateTeamScore(team.Id, game);
             return new TeamItemModel
             {
                 Id = team.Id,
@@ -104,18 +104,23 @@ namespace Vue24Hour.Models
             };
         }
 
-        private static int CalculateTeamScore(Guid teamId, List<ControlEvent> controlEvents)
+        private static int CalculateTeamScore(Guid teamId, Game game)
         {
             var totalScore = 0;
-            foreach (var controlEvent in controlEvents)
+            foreach (var controlEvent in game.ControlEvents.ToList())
             {
                 if (controlEvent.Team.Id == teamId)
                 {
-                    if (controlEvent.EndDateTime != DateTime.MinValue)
+                    TimeSpan difference;
+                    if (controlEvent.EndDateTime != game.EndDateTime)
                     {
-                        var difference = controlEvent.EndDateTime - controlEvent.StartDateTime;
-                        totalScore += difference.Minutes;
+                        difference = controlEvent.EndDateTime - controlEvent.StartDateTime;
                     }
+                    else
+                    {
+                        difference = DateTime.Now - controlEvent.StartDateTime;
+                    }
+                    totalScore += difference.Minutes;
                 }
             }
 
