@@ -6,9 +6,9 @@ namespace Vue24Hour.Domain.Model.Requests
     {
         public string Name { get; set; }
         public string Location { get; set; }
-        public int MaximumParticipants { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime StartTime { get; set; }
+        public string MaximumParticipants { get; set; }
+        public string StartDate { get; set; }
+        public string StartTime { get; set; }
         public string[] Teams { get; set; }
         public Team[] SelectedTeams { get; set; }
         public string Manager { get; set; }

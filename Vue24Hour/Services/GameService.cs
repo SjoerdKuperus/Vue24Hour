@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GeoCoordinatePortable;
 using Vue24Hour.Domain.Model;
 using Vue24Hour.Domain.Model.Requests;
 using Vue24Hour.Domain.Repository;
@@ -101,6 +102,68 @@ namespace Vue24Hour.Services
             var team = game.Teams.Single(_ => _.Id == teamId);
             var newPlayer = new Player {Id = Guid.NewGuid(), AccountName = userName, Name = userName};
             team.Players.Add(newPlayer);
+        }
+
+        public void ClaimPosition(Guid gameId, string username, string latitude, string longtitude)
+        {
+            var game = _gameRepository.GetGame(gameId);
+            var teamOfPlayer = GetTeamFromUser(username, game);
+            var now = DateTime.Now;
+            var exactStartTime = new DateTime(game.StartDate.Year, game.StartDate.Month, game.StartDate.Day,
+                game.StartTime.Hour, game.StartTime.Minute, game.StartTime.Second);
+            var endDateTime = exactStartTime.AddHours(24); //TODO add game duration
+            var doubleLatitude = double.Parse(latitude);
+            var doubleLongtitude = double.Parse(longtitude);
+            var (claimedQuadant, claimedDist) = GetQuadrantFromPosition(doubleLatitude, doubleLongtitude, game.Quadrants);
+
+            var claimEvent = new ControlEvent
+            {
+                Id = Guid.NewGuid(),
+                StartDateTime = now,
+                EndDateTime = endDateTime,
+                Quadrant = claimedQuadant,
+                Team = teamOfPlayer
+            };
+            game.ControlEvents.Add(claimEvent);
+        }
+
+        /// <summary>
+        /// Gets the quadrant from the suplied position of the user.
+        /// The quadrant returned will also return a distance to the center.
+        /// </summary>
+        private (Quadrant, int) GetQuadrantFromPosition(double latitude, double longtitude, ICollection<Quadrant> gameQuadrants)
+        {
+            Quadrant quadrantResult = null;
+            double lowestDistance = 100000;
+
+            var userLocation = new GeoCoordinate(latitude, longtitude);
+
+            foreach (var quadrant in gameQuadrants)
+            {
+                var distanceToCenterPoint = userLocation.GetDistanceTo(quadrant.CenterPoint);
+                if(distanceToCenterPoint < lowestDistance)
+                {
+                    lowestDistance = distanceToCenterPoint;
+                    quadrantResult = quadrant;
+                }
+            }
+
+            return (quadrantResult, (int) lowestDistance);
+        }
+
+
+        private static Team GetTeamFromUser(string username, Game game)
+        {
+            Team resultTeam = null;
+            foreach (var team in game.Teams)
+            {
+                if (team.Players.Any(p => p.AccountName == username))
+                {
+                    resultTeam = team;
+                    break;
+                }
+            }
+            return resultTeam;
         }
     }
 }

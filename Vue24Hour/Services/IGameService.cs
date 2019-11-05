@@ -15,5 +15,6 @@ namespace Vue24Hour.Services
         Task<IEnumerable<TeamItemModel>> GetTeams();
         void CreateTestEvents(Guid id);
         void JoinTeam(Guid teamId, string userName, Guid gameId);
+        void ClaimPosition(Guid gameId, string username, string latitude, string longtitude);
     }
 }

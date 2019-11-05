@@ -14,7 +14,7 @@ namespace Vue24Hour.Domain.Model
 
         public Quadrant()
         {
-            CenterPoint = GeoCoordinate.Unknown;
+            CenterPoint = null;
             Border = new HashSet<GeoCoordinate>();
             Id = Guid.NewGuid();
         }

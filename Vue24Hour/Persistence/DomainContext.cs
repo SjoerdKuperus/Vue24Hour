@@ -35,9 +35,9 @@ namespace Vue24Hour.Persistence
             {
                 Name = createGameRequest.Name,
                 Location = createGameRequest.Location,
-                MaximumParticipants = createGameRequest.MaximumParticipants,
-                StartDate = createGameRequest.StartDate,
-                StartTime = createGameRequest.StartTime,
+                MaximumParticipants = int.Parse(createGameRequest.MaximumParticipants),
+                StartDate = DateTime.Today,
+                StartTime = DateTime.Now,
                 Teams = createGameRequest.SelectedTeams,
                 Manager = createGameRequest.Manager,
                 GameState = GameState.Startup,
@@ -61,28 +61,46 @@ namespace Vue24Hour.Persistence
 
             GeoJson data = JsonConvert.DeserializeObject<GeoJson>(jsonData);
             FeatureCollection features = data as FeatureCollection;
+            var polygons = new Dictionary<string, Polygon>();
+            var points = new Dictionary<string, Point>();
             if (features != null)
             {
                 foreach (var feature in features.Features)
                 {
                     var geometry = feature.Geometry;
-                    Polygon polygon = geometry as Polygon;
-                    if (polygon != null)
+                    if (geometry.Type == GeoJsonType.Polygon)
                     {
-                        var newQuadrant = new Quadrant();
-                        newQuadrant.CenterPoint = new GeoCoordinate(52.0907336, 5.1217543); // TODO?
-
-                        foreach (var polygonCoords in polygon.Coordinates)
+                        var polygon = geometry as Polygon;
+                        if (polygon != null)
                         {
-                            var positions = polygonCoords.Coordinates;
-                            foreach (var point in positions)
-                            {
-                                newQuadrant.Border.Add(new GeoCoordinate(point.Latitude, point.Longitude));
-                            }
+                            polygons.Add(feature.Properties["Name"].ToString(), polygon);
                         }
-
-                        game.Quadrants.Add(newQuadrant);
                     }
+                    else if (geometry.Type == GeoJsonType.Point)
+                    {
+                        var point = geometry as Point;
+                        if (point != null)
+                        {
+                            points.Add(feature.Properties["Name"].ToString(), point);
+                        }
+                    }
+                }
+
+                foreach (var polygon in polygons)
+                {
+                    var newQuadrant = new Quadrant();
+                    var centerPoint = points[polygon.Key];
+                    newQuadrant.CenterPoint = new GeoCoordinate(centerPoint.GetLatitude(), centerPoint.GetLongitude());
+
+                    foreach (var polygonCoords in polygon.Value.Coordinates)
+                    {
+                        var positions = polygonCoords.Coordinates;
+                        foreach (var point in positions)
+                        {
+                            newQuadrant.Border.Add(new GeoCoordinate(point.Latitude, point.Longitude));
+                        }
+                    }
+                    game.Quadrants.Add(newQuadrant);
                 }
             }
         }

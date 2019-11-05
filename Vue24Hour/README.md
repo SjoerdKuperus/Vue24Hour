@@ -125,6 +125,9 @@ Doelen:
 (23 juli)
 * Update all npm packages to latest version and fix breaking changes.
 
+(15 okt)
+* Migrate to github
+* Migrate to .netcore 3.0
 
-
-
+(5 nov)
+* Add claim quadrant functionality

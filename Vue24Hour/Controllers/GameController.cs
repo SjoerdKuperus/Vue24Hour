@@ -45,14 +45,14 @@ namespace Vue24Hour.Controllers
             {
                 return BadRequest("Locatie mag niet leeg zijn.");
             }
-            if (createGameRequest?.MaximumParticipants == 0)
-            {
-                return BadRequest("Vul een minimaal aantal deelnemers toe.");
-            }
-            if (string.IsNullOrEmpty(createGameRequest?.StartDate.ToString("yy-MM-dd")))
-            {
-                return BadRequest("Startdatum mag niet leeg zijn.");
-            }
+            //if (createGameRequest?.MaximumParticipants == 0)
+            //{
+            //    return BadRequest("Vul een minimaal aantal deelnemers toe.");
+            //}
+            //if (string.IsNullOrEmpty(createGameRequest?.StartDate.ToString("yy-MM-dd")))
+            //{
+            //    return BadRequest("Startdatum mag niet leeg zijn.");
+            //}
             if (createGameRequest.Teams == null || createGameRequest?.Teams.Length < 2)
             {
                 return BadRequest("Er moeten minimaal 2 teams mee doen.");
@@ -89,6 +89,15 @@ namespace Vue24Hour.Controllers
             var game = await _gameService.GetGame(new Guid(joinGameModel.gameId));
             return Ok(game);
         }
+
+        [HttpPost("claimPosition")]
+        public async Task<IActionResult> ClaimPosition([FromBody] ClaimPositionModel claimPositionModel)
+        {
+            _gameService.ClaimPosition(new Guid(claimPositionModel.gameId), claimPositionModel.userName,
+                claimPositionModel.latitude, claimPositionModel.longtitude);
+            var game = await _gameService.GetGame(new Guid(claimPositionModel.gameId));
+            return Ok(game);
+        }
     }
 
     public class ActivateGameModel
@@ -101,5 +110,13 @@ namespace Vue24Hour.Controllers
         public string id { get; set; }
         public string userName { get; set; }
         public string gameId { get; set; }
+    }
+
+    public class ClaimPositionModel
+    {
+        public string latitude { get; set; }
+        public string longtitude { get; set; }
+        public string gameId { get; set; }
+        public string userName { get; set; }
     }
 }

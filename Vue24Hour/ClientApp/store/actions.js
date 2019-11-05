@@ -86,7 +86,6 @@ export const actions = {
 
     async getAllGames({ commit }) {
         let response = await axios.get('/api/game');
-
         if (response && response.data) {
             let updatedGames = response.data;
             commit('loadGames', updatedGames);
@@ -116,5 +115,26 @@ export const actions = {
                 let game = response.data;
                 commit('loadGame', game);
             });
+    },
+
+    async claimPostion({ dispatch, commit }, claimData) {
+        var position = claimData.position;
+        var game = claimData.myCurrentGame;
+        var username = claimData.username;
+        if (position !== undefined && position !== null) {
+            var latitude = "" + position.latitude;
+            var longtitude = "" + position.longtitude;
+            var data =
+            {
+                latitude: latitude,
+                longtitude: longtitude,
+                gameId: game.id,
+                userName: username,
+            };
+            await axios.post('/api/game/claimPosition', data)
+                .then((response) => {
+                    dispatch('getAllGames');
+                });
+        }
     },
 }

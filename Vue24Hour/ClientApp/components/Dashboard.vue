@@ -28,7 +28,7 @@
             </div>
             <div class="team-points">Team <span v-bind:style="{'color': currentTeam.color}">{{currentTeam.name}}</span> heeft <span class="team-points-score">{{currentTeam.score}}</span> punten</div>
             <p>
-                <h3>Locatie</h3>
+                <h3>Kaart <button class="btn btn-secondary float-right" @click="claimPolygon">verover kwadrant</button></h3>                
                 <div>{{locationName}}</div>
                 <!--The div in which the map will be created-->
                 <div id="map-container"></div>
@@ -50,8 +50,9 @@
             countDown(newValue) {
                 //When the time changes. Set the location again.
                 //TODO: for now leave off.
-                //this.getLocation();
-                //this.updateMapPointerSource();
+                this.getLocation();
+                this.updateMapPointerSource();
+                this.updateMapSource();
             }
         },
         components: { GameItem },
@@ -136,7 +137,7 @@
                         zoom: 13.2,
                         center: center,
                         interactive: false,
-                    });                   
+                    });
 
                     // Add zoom and rotation controls to the map.
                     //map.addControl(new mapboxgl.NavigationControl(), "top-left");
@@ -227,20 +228,19 @@
             createFeatureData() {
                 var features = [];
                 if (this.myCurrentGame !== null) {
-                    var colors = ["#FF4747", "#FF9A47", "#35BDBD", "#3EDE3E", "#35BD79"];
-                    var colorCount = 0;
                     for (var i = 0; i < this.myCurrentGame.quadrants.length; i++) {
                         var quadrant = this.myCurrentGame.quadrants[i];
                         var polygonColor = "#000000";
-
-                        if (this.eventItems != null && this.eventItems.length > 0) {
-                            var currentControlEvent = this.eventItems[this.eventCounter];
-                            var quadrantId = currentControlEvent.quadrantId;
-                            var teamColor = currentControlEvent.teamColor;
-
-                            if (quadrantId == quadrant.id) {
-                                polygonColor = teamColor;
-                            }
+                        var currentEvents = this.getCurrentEventsFromGame(this.myCurrentGame);
+                        if (currentEvents.length > 0) {
+                            for (var k = 0; k < currentEvents.length; k++) {
+                                var currentControlEvent = currentEvents[k];
+                                var quadrantId = currentControlEvent.quadrantId;
+                                var teamColor = currentControlEvent.teamColor;
+                                if (quadrantId == quadrant.id) {
+                                    polygonColor = teamColor;
+                                }
+                            }                           
                         }
 
                         var newFeature = {
@@ -254,10 +254,6 @@
                             }
                         };
                         features.push(newFeature);
-                        colorCount++;
-                        if (colorCount == 5) {
-                            colorCount = 0;
-                        }
                     }
 
                     //Add current location point.
@@ -284,6 +280,14 @@
                     }
                 };
             },
+            getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            },
             getPolygon(quadrant) {
                 var result = [];
                 if (quadrant !== null && quadrant !== undefined) {
@@ -303,8 +307,28 @@
                     x.innerHTML = "Geolocation is not supported by this browser.";
                 }
             },
+            getCurrentEventsFromGame(game) {
+                var resultList = [];
+                var now = moment();
+                for (var i = 0; i < game.controlEvents.length; i++) {
+                    var controlEvent = game.controlEvents[i];
+                    var startDateTime = moment(controlEvent.startDateTime);
+                    var endDateTime = moment(controlEvent.endDateTime);
+                    if (startDateTime < now && endDateTime > now) {
+                        resultList.push(controlEvent);
+                    }
+                }
+                return resultList;
+            },
             savePosition(position) {
                 this.$store.dispatch('setPostion', position);
+            },
+            claimPolygon() {
+                this.$store.dispatch('claimPostion', {
+                    position: this.$store.state.locationCoords,
+                    myCurrentGame: this.myCurrentGame,
+                    username: this.$store.state.userName
+                });
             },
         },
         beforeDestroy() {
